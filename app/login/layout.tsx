@@ -7,6 +7,6 @@ export default function RootLayout({
 }) {
   return (
     // Login page
-    <body className={styles.background}>{children}</body>
+    <main className={styles.background}>{children}</main>
   );
 }

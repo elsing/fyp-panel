@@ -3,20 +3,16 @@
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import Link from "next/link";
-import { useFormik } from "formik";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
+import { useRouter } from "next/navigation";
+import { Url, UrlObject } from "url";
 // import
-
-interface form {
-  username: string;
-  password: string;
-}
 
 const inter = Inter({ subsets: ["latin"] });
 
-async function loginRequest(url: URL, { arg }) {
+async function loginRequest(url: string, { arg }: { arg: object }) {
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),
@@ -25,45 +21,42 @@ async function loginRequest(url: URL, { arg }) {
   });
 }
 
-// const fetcher = (url: URL) => fetch(url).then((res) => res.json());
-
 export default function Login() {
+  const router = useRouter();
   const [loginSuccess, setloginSuccess] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    // watch,
+    formState: { errors },
+  } = useForm();
   const { trigger, data, error, isMutating } = useSWRMutation(
     "https://api.singer.systems/auth",
     loginRequest
   );
-  // const { data, error } = useSWR("http://127.0.0.1:8000/auth", loginFetcher);
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      password: "",
-    },
-    // validationSchema: loginSchema,
-    onSubmit: async (values) => {
-      setloginSuccess(true);
-      // Once form submited ex. {Email: 'John@example.com', Password: 'secret'}
-      const result: typeof data = await trigger(values);
-      if (result.status === 200) {
-        // Handle successful login
-        <Link href="/dashboard" />;
-      } else {
-        // Handle login error
-        setloginSuccess(false);
-        console.log("Login Failed!");
-      }
-    },
-  });
 
+  const onSubmit = async (data: any) => {
+    setloginSuccess(true);
+    console.log("data", data);
+    // Once form submited ex. {Email: 'John@example.com', Password: 'secret'}
+    const result: typeof data = await trigger(data);
+    if (result?.status === 200) {
+      // Handle successful login
+      router.push("/dashboard");
+    } else {
+      // Handle login error
+      setloginSuccess(false);
+      console.log("Login Failed!");
+    }
+  };
   // bg-gray-200 dark:bg-gray-900
-
   return (
     <main>
       <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0">
         <h1 className="my-4 text-5xl dark:text-white font-bold">Watershed</h1>
         <form
           className="flex flex-col gap-4 bg-white dark:bg-gray-700 p-6 rounded-lg max-w-sm"
-          onSubmit={formik.handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div>
             <p className="text-3xl my-2 font-bold">Sign in</p>
@@ -74,9 +67,7 @@ export default function Login() {
               id="username"
               type="text"
               placeholder="johndoe"
-              required={true}
-              onChange={formik.handleChange}
-              value={formik.values.username}
+              {...register("username", { required: true })}
             />
           </div>
           <div>
@@ -87,8 +78,7 @@ export default function Login() {
               id="password"
               type="password"
               required={true}
-              onChange={formik.handleChange}
-              value={formik.values.password}
+              {...register("password", { required: true })}
             />
           </div>
           {/* <div className="flex items-center gap-2">
