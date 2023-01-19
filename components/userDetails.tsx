@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { Suspense } from "react";
 import nextBase64 from "next-base64";
 
-export default function Username() {
+export default function UserDetails() {
   function getInfo() {
     const userCookies = cookies();
     try {
@@ -14,10 +14,10 @@ export default function Username() {
       return "User not found";
     }
   }
-  const username = getInfo();
+  const name = getInfo();
 
   return (
-    <div className="flex flex-col justify-center">
+    <div>
       <h1>{getInfo()}</h1>
     </div>
   );

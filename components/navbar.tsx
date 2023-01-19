@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logout from "@/components/logout";
-import Username from "@/components/username";
+import UserDetails from "@/components/userDetails";
+import Darkmode from "@/components/darkmode";
 
 export default function RenderNavbar() {
   return (
@@ -11,14 +12,14 @@ export default function RenderNavbar() {
     //     </span>
     //   </Navbar.Brand>
     // </Navbar>
-    <div className="bg-gray-700 p-4 w-screen justify-items-stretch justify-between flex flex-row">
+    <div className="bg-gray-200 dark:bg-gray-700 p-4 w-screen justify-items-stretch justify-between flex flex-row dark:text-gray-200">
       <Link
         href="/dashboard"
-        className="bg-gray-400 border-black border-2 font-bold px-2 text-xl w-1/6 items-center"
+        className="border-black border-1 font-bold px-2 text-xl w-1/6 justify-center flex-col flex"
       >
         <h1>Watergate</h1>
       </Link>
-      <div className="flex flex-row justify-around bg-gray-400 border-black border-2 px-4 w-4/5">
+      <div className="flex flex-row justify-around items-center border-black border-1 px-4 w-4/5 ">
         <Link href="/dashboard/flows">
           <h1>Flows</h1>
         </Link>
@@ -29,13 +30,10 @@ export default function RenderNavbar() {
           <h1>Settings</h1>
         </Link>
       </div>
-      <div className="flex justify-between bg-gray-400 w-1/3 px-4">
-        <Username />
-        <Link href="/logout">
-          <h1>Logout</h1>
-        </Link>
-        {/* <button onSubmit={Logout}>Logout</button> */}
+      <div className="flex justify-between items-center w-1/3 px-4 border-black border-1">
+        <UserDetails />
         <Logout />
+        <Darkmode />
       </div>
     </div>
   );
