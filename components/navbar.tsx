@@ -19,15 +19,21 @@ export default function RenderNavbar() {
         <h1>Watergate</h1>
       </Link>
       <div className="flex flex-row justify-around bg-gray-400 border-black border-2 px-4 w-4/5">
-        <h1>Flows</h1>
-        <h1>Streams</h1>
-        <h1>Settings</h1>
+        <Link href="/dashboard/flows">
+          <h1>Flows</h1>
+        </Link>
+        <Link href="/dashboard/streams">
+          <h1>Streams</h1>
+        </Link>
+        <Link href="/dashboard/settings">
+          <h1>Settings</h1>
+        </Link>
       </div>
       <div className="flex justify-between bg-gray-400 w-1/3 px-4">
         <Username />
-        {/* <Link href="/logout">
+        <Link href="/logout">
           <h1>Logout</h1>
-        </Link> */}
+        </Link>
         {/* <button onSubmit={Logout}>Logout</button> */}
         <Logout />
       </div>
