@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 import { Url, UrlObject } from "url";
@@ -23,7 +23,8 @@ async function loginRequest(url: string, { arg }: { arg: object }) {
 
 export default function Login() {
   const router = useRouter();
-  const [loginSuccess, setloginSuccess] = useState(true);
+  const [loginSuccess, setloginSuccess] = useState(false);
+  const [loginFailed, setloginFailed] = useState(false);
   const {
     register,
     handleSubmit,
@@ -36,15 +37,17 @@ export default function Login() {
   );
 
   const onSubmit = async (data: any) => {
-    setloginSuccess(true);
+    setloginFailed(false);
     console.log("data", data);
     // Once form submited ex. {Email: 'John@example.com', Password: 'secret'}
     const result: typeof data = await trigger(data);
     if (result?.status === 200) {
       // Handle successful login
+      setloginSuccess(true);
       router.push("/dashboard");
     } else {
       // Handle login error
+      setloginFailed(true);
       setloginSuccess(false);
       console.log("Login Failed!");
     }
@@ -85,11 +88,19 @@ export default function Login() {
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div> */}
-          <Button type="submit" disabled={isMutating}>
-            {/* disabled={!dirty || isSubmitting} */}
-            Submit
-          </Button>
+          {loginSuccess && (
+            <Button type="submit" disabled={isMutating || loginSuccess}>
+              {/* disabled={!dirty || isSubmitting} */}
+              Success...redirecting!
+            </Button>
+          )}
           {loginSuccess === false && (
+            <Button type="submit" disabled={isMutating || loginSuccess}>
+              {/* disabled={!dirty || isSubmitting} */}
+              Submit
+            </Button>
+          )}
+          {loginFailed && (
             <Label
               className="font-bold text-center text-red-500 text-xl"
               value="Login failed, please try again"

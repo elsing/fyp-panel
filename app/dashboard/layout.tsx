@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
-import Redirect from "./noAuth";
+import Redirect from "@/components/noAuth";
+import RenderNavbar from "@/components/navbar";
 
 export default function RootLayout({
   children,
@@ -14,12 +15,10 @@ export default function RootLayout({
 
   const hasAuth: boolean = Authenticated();
 
-  console.log("hasAuth", hasAuth);
-
   if (hasAuth) {
     return (
       <main>
-        <header>Header</header>
+        <RenderNavbar />
         {children}
         <footer>Footer</footer>
       </main>
