@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import Redirect from "@/components/noAuth";
+import Redirect from "@/components/authRedirect";
 import RenderNavbar from "@/components/navbar";
 
 export default function RootLayout({
@@ -17,13 +17,13 @@ export default function RootLayout({
 
   if (hasAuth) {
     return (
-      <main>
+      <main className="dark:text-white">
         <RenderNavbar />
         {children}
         <footer>Footer</footer>
       </main>
     );
   } else {
-    return <Redirect />;
+    return <Redirect url="/login" />;
   }
 }

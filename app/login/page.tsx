@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
 import { Inter } from "@next/font/google";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { Suspense, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
-import { Url, UrlObject } from "url";
+import Darkmode from "@/components/darkmode";
 // import
 
 const inter = Inter({ subsets: ["latin"] });
@@ -62,7 +61,7 @@ export default function Login() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div>
-            <p className="text-3xl my-2 font-bold">Sign in</p>
+            <p className="text-3xl my-2 font-bold dark:text-white">Sign in</p>
             <div className="mb-2 block">
               <Label htmlFor="username" value="Your username" />
             </div>
@@ -80,7 +79,6 @@ export default function Login() {
             <TextInput
               id="password"
               type="password"
-              required={true}
               {...register("password", { required: true })}
             />
           </div>
@@ -106,9 +104,12 @@ export default function Login() {
               value="Login failed, please try again"
             />
           )}
-          <p className="">
+          <p className="dark:text-white font-semibold">
             To create an account or reset a password, ask an admin. For now.
           </p>
+          <div className="flex flex-row justify-center">
+            <Darkmode />
+          </div>
         </form>
       </div>
     </main>

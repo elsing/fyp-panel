@@ -12,15 +12,18 @@ export default function RenderNavbar() {
     //     </span>
     //   </Navbar.Brand>
     // </Navbar>
-    <div className="bg-gray-200 dark:bg-gray-700 p-4 w-screen justify-items-stretch justify-between flex flex-row dark:text-gray-200">
+    <div className="bg-gray-200 dark:bg-gray-700 p-4 w-screen justify-items-stretch justify-between flex flex-row dark:text-gray-200 h-16">
       <Link
         href="/dashboard"
         className="border-black border-1 font-bold px-2 text-xl w-1/6 justify-center flex-col flex"
       >
         <h1>Watergate</h1>
       </Link>
-      <div className="flex flex-row justify-around items-center border-black border-1 px-4 w-4/5 ">
-        <Link href="/dashboard/flows">
+      <div className="flex flex-row justify-around items-center border-black border-1 px-4 w-3/5 md:w-5/6">
+        <Link
+          href="/dashboard/flows"
+          className="hover:bg-gray-400 rounded-xl px-4 py-2 dark:bg-gray-600"
+        >
           <h1>Flows</h1>
         </Link>
         <Link href="/dashboard/streams">
@@ -30,7 +33,7 @@ export default function RenderNavbar() {
           <h1>Settings</h1>
         </Link>
       </div>
-      <div className="flex justify-between items-center w-1/3 px-4 border-black border-1">
+      <div className="flex justify-end items-center w-1/2 px-4 md:w-fit">
         <UserDetails />
         <Logout />
         <Darkmode />
