@@ -3,25 +3,25 @@ import { Suspense } from "react";
 import nextBase64 from "next-base64";
 import UserAvatar from "@/components/avatar";
 
-export default async function UserDetails() {
-  async function getInfo() {
+export default function UserDetails() {
+  function getInfo() {
     const userCookies = cookies();
     try {
-      const payload = await userCookies.get("auth_token");
-      const cookie = await String(payload.value).split(".", 2);
-      const data = await nextBase64.decode(String(cookie[1]));
-      const userInfo = await JSON.parse(data);
+      const payload = userCookies.get("auth_token");
+      const cookie = String(payload.value).split(".", 2);
+      const data = nextBase64.decode(String(cookie[1]));
+      const userInfo = JSON.parse(data);
       return userInfo;
     } catch {
       return "User not found";
     }
   }
-  const details = await getInfo();
+  const details = getInfo();
 
   return (
     <div className="grid grid-cols-2 md:grid-rows-2 items-center justify-center h-16 md:w-64 min-w-min">
       <UserAvatar className="row-span-2 hidden md:block w-fit" />
-      <h1 className="md:col-span-1 col-span-2">
+      <h1 className="md:col-span-1 col-span-2 hidden sm:block">
         {details.first_name + " " + details.last_name}
       </h1>
       <p className="md:col-span-1 col-span-2 hidden md:block">

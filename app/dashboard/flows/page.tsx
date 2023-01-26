@@ -10,14 +10,19 @@ import { Spinner } from "flowbite-react";
 export default function Flows() {
   const [flows, setFlows] = useState({});
 
-  const { data } = useSWR("https://api.singer.systems/flows", fetcher, {
-    suspense: true,
-  });
+  const { data } = useSWR(
+    "https://api.singer.systems/flows",
+    (url) => fetcher(url, method, data),
+    {
+      suspense: true,
+    }
+  );
 
   useEffect(() => {
+    console.log("effect trigger");
     if (data?.success) {
-      setFlows(data);
-      console.log("data:", data?.json);
+      setFlows(data.json);
+      console.log("data:", data.json);
     } else {
       if (data?.code === 401) {
         window.location.href = "/login";
@@ -29,15 +34,22 @@ export default function Flows() {
 
   return (
     <div>
-      <h1>Flows</h1>
-      <Suspense
-        fallback={
-          <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0 text-black dark:text-white ">
-            <Spinner color="purple" aria-label="Purple spinner example" />
+      <div className="p-4 m-4">
+        <h1 className="text-xl font-bold">Flows</h1>
+        <h2>
+          These are the daemons that connect to each other to create streams.
+        </h2>
+      </div>
+      <Suspense>
+        {data?.success ? (
+          <RenderFlows flows={data?.json} />
+        ) : (
+          <div className="m-4 p-4">
+            <p className="text-red-500">
+              Unable to load flows, please try again.
+            </p>
           </div>
-        }
-      >
-        <RenderFlows flows={data?.json} />
+        )}
       </Suspense>
     </div>
   );
