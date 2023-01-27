@@ -1,23 +1,23 @@
-export const fetcher = async (
+export async function fetcher(
   url: string,
-  method: string = "GET",
-  input: object
-) => {
+  { arg }: { arg: any | undefined } = { arg: undefined }
+) {
+  const method = arg[0];
+  const input = arg[1];
+
+  // input: object
+  console.log("fetcher called first", url, { arg });
   async function handleResponse(response: Response) {
     const json = await response.json();
     console.log(response);
-    console.log(json);
     if (!response.ok) {
-      console.log("error");
       return { success: false, json: json, code: response.status };
     }
-    console.log("success");
     return { success: true, json: json, code: response.status };
   }
 
   try {
-    console.log("fetcher called", url);
-    if (method === "POST") {
+    if (method === "POST" || method === "PATCH") {
       const response = await fetch(url, {
         method: method,
         credentials: "include",
@@ -36,4 +36,4 @@ export const fetcher = async (
     console.log(error);
     return { success: false, json: error, code: 500 };
   }
-};
+}

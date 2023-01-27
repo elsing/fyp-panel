@@ -7,18 +7,19 @@ import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 import Darkmode from "@/components/darkmode";
+import { fetcher } from "@/components/fetcher";
 // import
 
 const inter = Inter({ subsets: ["latin"] });
 
-async function loginRequest(url: string, { arg }: { arg: object }) {
-  return await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(arg),
-    credentials: "include",
-    headers: { "Access-Control-Request-Method": "Allow" },
-  });
-}
+// async function loginRequest(url: string, { arg }: { arg: object }) {
+//   return await fetch(url, {
+//     method: "POST",
+//     body: JSON.stringify(arg),
+//     credentials: "include",
+//     headers: { "Access-Control-Request-Method": "Allow" },
+//   });
+// }
 
 export default function Login() {
   const router = useRouter();
@@ -32,15 +33,15 @@ export default function Login() {
   } = useForm();
   const { trigger, data, error, isMutating } = useSWRMutation(
     "https://api.singer.systems/auth",
-    loginRequest
+    fetcher
   );
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (loginForm: any) => {
     setloginFailed(false);
-    console.log("data", data);
+    console.log("loginForm", loginForm);
     // Once form submited ex. {Email: 'John@example.com', Password: 'secret'}
-    const result: typeof data = await trigger(data);
-    if (result?.status === 200) {
+    await trigger(["POST", loginForm]);
+    if (data?.code === 200) {
       // Handle successful login
       setloginSuccess(true);
       router.push("/dashboard");

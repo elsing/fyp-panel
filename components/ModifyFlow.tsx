@@ -11,6 +11,7 @@ import {
 import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "./fetcher";
+import useSWRMutation from "swr/mutation";
 import useSWR from "swr";
 
 export default function ModifyModal({
@@ -22,9 +23,9 @@ export default function ModifyModal({
   setStatus: Function;
   flow: number | undefined;
 }) {
-  const [method, setMethod] = useState("GET");
+  // const [method, setMethod] = useState("GET");
   const [formData, setFormData] = useState<object>({});
-  const [trigger, setTrigger] = useState(false);
+  // const [trigger, setTrigger] = useState(false);
 
   const {
     register,
@@ -38,33 +39,49 @@ export default function ModifyModal({
     reset();
   }
 
-  const { data } = useSWR(
-    trigger ? `https://api.singer.systems/flows/${flow}` : null,
-    (url: string) => fetcher(url, method, { formData }),
-    {
-      suspense: true,
-    }
+  // const { trigger, isMutating, data, error } = useSWRMutation(
+  //   [`https://api.singer.systems/flows/${flow}`, "GET"],
+  //   ([url, method]) => fetcher(url, method, formData)
+  // );
+
+  const { trigger, isMutating, data, error } = useSWRMutation(
+    `https://api.singer.systems/flows/${flow}`,
+    fetcher
   );
 
-  function onSubmit(formResult: object) {
-    setMethod("POST");
-    setFormData(formResult);
-    setTrigger(true);
-    console.log("data:", data);
+  // const { data } = useSWR(
+  //   trigger ? `https://api.singer.systems/flows/${flow}` : null,
+  //   (url: string) => fetcher(url, method, { formData }),
+  //   {
+  //     suspense: true,
+  //   }
+  // );
+
+  async function onSubmit(formResult: object) {
+    // setMethod("PATCH");
+    console.log(formResult);
+    await setFormData(formResult);
+    // console.log("before trigger", method, formData);
+    await trigger(["PATCH", formResult]);
     setStatus(false);
+    await reset();
   }
 
   useEffect(() => {
     if (!status) {
       return;
     }
-    if (flow !== undefined) {
-      console.log("called");
-      setMethod("GET");
-      setTrigger(true);
+    async function getData() {
+      // await setMethod("GET");
+      // console.log("before getData trigger", method);
+      await trigger(["GET", {}]);
       console.log("data:", data?.json);
     }
-  }, [status, flow, data]);
+    if (flow !== undefined) {
+      getData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, flow]);
 
   return (
     <Modal show={status} onClose={onClose}>
@@ -111,7 +128,11 @@ export default function ModifyModal({
       </Modal.Body>
       <Modal.Footer>
         <div className="flex flex-col justify-center w-full">
-          <Button color="success" onClick={handleSubmit(onSubmit)}>
+          <Button
+            color="success"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isMutating}
+          >
             Save
           </Button>
         </div>
