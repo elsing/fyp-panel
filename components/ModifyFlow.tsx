@@ -8,48 +8,63 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "./fetcher";
+import useSWR from "swr";
 
 export default function ModifyModal({
   status,
   setStatus,
-  key,
+  flow,
 }: {
   status: boolean;
   setStatus: Function;
-  key: number;
+  flow: number | undefined;
 }) {
+  const [method, setMethod] = useState("GET");
+  const [formData, setFormData] = useState<object>({});
+  const [trigger, setTrigger] = useState(false);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (formData) => console.log(formData);
 
   function onClose() {
     setStatus(false);
+    reset();
   }
 
-  const { data } = useSWR("https://api.singer.systems/flows", fetcher, {
-    suspense: true,
-  });
+  const { data } = useSWR(
+    trigger ? `https://api.singer.systems/flows/${flow}` : null,
+    (url: string) => fetcher(url, method, { formData }),
+    {
+      suspense: true,
+    }
+  );
+
+  function onSubmit(formResult: object) {
+    setMethod("POST");
+    setFormData(formResult);
+    setTrigger(true);
+    console.log("data:", data);
+    setStatus(false);
+  }
 
   useEffect(() => {
-    reset();
-    if (data?.success) {
-      setFlows(data.json);
-      console.log("data:", data.json);
-    } else {
-      if (data?.code === 401) {
-        window.location.href = "/login";
-      }
-      setFlows({ loaded: false });
-      console.log("else...!", data?.json);
+    if (!status) {
+      return;
     }
-  }, [reset, status]);
+    if (flow !== undefined) {
+      console.log("called");
+      setMethod("GET");
+      setTrigger(true);
+      console.log("data:", data?.json);
+    }
+  }, [status, flow, data]);
 
   return (
     <Modal show={status} onClose={onClose}>
@@ -64,6 +79,7 @@ export default function ModifyModal({
               <TextInput
                 type="text"
                 placeholder="Name"
+                defaultValue={data?.json?.name}
                 {...register("name", { required: true, maxLength: 50 })}
               />
               {errors.name?.type === "required" && (
@@ -75,12 +91,16 @@ export default function ModifyModal({
               <Textarea
                 {...register("description", { required: true, maxLength: 255 })}
                 rows={4}
+                defaultValue={data?.json?.description}
               />
               {errors.description?.type === "maxLength" && (
                 <p>The name must be 255 characters or less.</p>
               )}
               <div className="flex items-center gap-2">
-                <Checkbox {...register("monitor", {})} />
+                <Checkbox
+                  {...register("monitor", {})}
+                  checked={data?.json ? data?.json.monitor : false}
+                />
                 <Label htmlFor="promotion">Monitor?</Label>
               </div>
 
@@ -98,11 +118,4 @@ export default function ModifyModal({
       </Modal.Footer>
     </Modal>
   );
-}
-function useSWR(
-  arg0: string,
-  fetcher: any,
-  arg2: { suspense: boolean }
-): { data: any } {
-  throw new Error("Function not implemented.");
 }

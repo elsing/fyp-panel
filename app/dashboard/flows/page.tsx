@@ -10,13 +10,9 @@ import { Spinner } from "flowbite-react";
 export default function Flows() {
   const [flows, setFlows] = useState({});
 
-  const { data } = useSWR(
-    "https://api.singer.systems/flows",
-    (url) => fetcher(url, method, data),
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useSWR("https://api.singer.systems/flows", fetcher, {
+    suspense: true,
+  });
 
   useEffect(() => {
     console.log("effect trigger");

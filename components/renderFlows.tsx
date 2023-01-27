@@ -16,36 +16,41 @@ export interface FlowConfig {
 }
 
 export default function RenderFlows({ flows }: { flows: FlowConfig[] }) {
-  const [createFlow, setCreateFlow] = useState(false);
-  const [key, setKey] = useState(0);
+  const [key, setKey] = useState<number>();
+  const [trigger, setTrigger] = useState(false);
   const [showModifyModal, setShowModifyModal] = useState(false);
+  const [showCreateModal, setCreateModal] = useState(false);
 
   function handleClick(id: number) {
+    if (id !== 0) {
+      setShowModifyModal(true);
+    } else {
+      setCreateModal(true);
+    }
     setKey(id);
   }
 
-  useEffect(() => {
-    if (key !== 0) {
-      console.log(key);
-      console.log("Modify attempt");
-      setCreateFlow(false);
-    } else {
-      console.log("Create attempt");
-      setCreateFlow(false);
-    }
-  }, [createFlow, key]);
-
-  async function handleSubmit() {
-    console.log("submited");
-  }
+  // useEffect(() => {
+  //   console.log("test");
+  //   if (key === undefined) {
+  //     return;
+  //   }
+  //   if (key !== 0) {
+  //     console.log("renderkeys:", key);
+  //     console.log("Modify attempt");
+  //     // setShowModifyModal(true);
+  //   } else {
+  //     console.log("Create attempt");
+  //   }
+  // }, [key]);
 
   return (
     <div>
-      {createFlow && <CreateFlow />}
+      {/* <CreateFlow /> */}
       <ModifyModal
         status={showModifyModal}
         setStatus={setShowModifyModal}
-        key={key}
+        flow={key}
       />
 
       <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-pink-500 ">
@@ -95,7 +100,7 @@ export default function RenderFlows({ flows }: { flows: FlowConfig[] }) {
                 data-modal-toggle="modify-flow-modal"
                 type="button"
                 onClick={() => {
-                  setShowModifyModal(true), handleClick(flow.flow_id);
+                  handleClick(flow.flow_id);
                 }}
               >
                 test
