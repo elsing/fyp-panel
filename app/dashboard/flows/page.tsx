@@ -19,17 +19,18 @@ export default function Flows() {
   );
 
   useEffect(() => {
-    console.log("effect trigger");
+    console.log("Refresh Flows");
     if (data?.success) {
       setFlows(data.json);
       console.log("data:", data.json);
-    } else {
-      if (data?.code === 401) {
-        window.location.href = "/login";
-      }
-      setFlows({ loaded: false });
-      console.log("else...!", data?.json);
     }
+    //  else {
+    //   if (data?.code === 401) {
+    //     window.location.href = "/login";
+    //   }
+    //   setFlows({ loaded: false });
+    //   console.log("else...!", data?.json);
+    // }
   }, [data]);
 
   return (

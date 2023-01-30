@@ -1,52 +1,44 @@
 "use client";
 
-import CreateFlow from "./CreateFlow";
-import ModifyModal from "./ModifyFlow";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import CreateRiver from "./CreateRiver";
+import ModifyRiver from "./ModifyRiver";
 
-export interface FlowConfig {
-  flow_id: number;
+export interface RiverConfig {
+  river_id: number;
   org_id: number;
-  stream_id: number;
   name: string;
-  status: string;
-  description: string;
-  monitor: boolean;
-  api_key: string;
+  initiated: boolean;
 }
 
-export default function RenderFlows({
-  flows,
+export default function RenderRivers({
+  rivers,
   empty,
 }: {
-  flows: FlowConfig[];
+  rivers: RiverConfig[];
   empty: boolean;
 }) {
   const [key, setKey] = useState<number>();
-  const [trigger, setTrigger] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showModifyModal, setShowModifyModal] = useState(false);
-  const [showCreateModal, setCreateModal] = useState(false);
 
   function handleClick(id: number) {
     if (id !== 0) {
       setShowModifyModal(true);
     } else {
-      setCreateModal(true);
+      setShowCreateModal(true);
     }
     setKey(id);
   }
 
   return (
     <div>
-      {/* <CreateFlow /> */}
-      <ModifyModal
+      <CreateRiver status={showCreateModal} setStatus={setShowCreateModal} />
+      <ModifyRiver
         status={showModifyModal}
         setStatus={setShowModifyModal}
-        flow={key}
+        river={key}
       />
-      {/* Show the create flows button */}
-      <CreateFlow status={showCreateModal} setStatus={setCreateModal} />
-
       <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-pink-500 ">
         <div className="bg-gray-500 border-black border rounded-lg m-4 p-4 h-40 shadow-xl flex flex-col hover:bg-gray-400">
           <button
@@ -75,32 +67,23 @@ export default function RenderFlows({
         </div>
         {/* If flows exist, map them */}
         {!empty &&
-          flows.map((flow) => {
+          rivers.map((river) => {
             return (
               <div
-                key={flow.flow_id}
-                data-key={flow.flow_id}
+                key={river.river_id}
+                // data-key={river.river_id}
                 className="flex flex-col bg-gray-500 hover:bg-gray-400 border-black border rounded-lg m-4 p-4 h-40 shadow-xl"
               >
-                <p className="text-center font-bold">{flow.name}</p>
-                <p>
-                  Status:{" "}
-                  {flow.status === "up"
-                    ? "✅"
-                    : flow.status === "down"
-                    ? "❌"
-                    : "❓"}
-                </p>
-                <p className="flex-wrap h-fit">
-                  Description {flow.description}
-                </p>
-                <p>Monitored: {flow.monitor ? "✅" : "❌"}</p>
+                <p className="text-center font-bold">{river.name}</p>
+                <br />
+                <p>Initiated: {river.initiated ? "✅" : "❌"}</p>
+                <br />
                 <button
                   data-modal-target="modify-flow-modal"
                   data-modal-toggle="modify-flow-modal"
                   type="button"
                   onClick={() => {
-                    handleClick(flow.flow_id);
+                    handleClick(river.river_id);
                   }}
                 >
                   Modify
