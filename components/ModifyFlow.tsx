@@ -56,7 +56,6 @@ export default function ModifyModal({
 
   async function handleDelete() {
     await trigger(["DELETE", {}]);
-    console.log("Deleted!");
     setShowDeleteModal(false);
     setStatus(false);
     mutate("https://api.singer.systems/flows");
@@ -119,7 +118,7 @@ export default function ModifyModal({
                     rows={4}
                   />
                   {errors.description?.type === "maxLength" && (
-                    <p>The name must be 255 characters or less.</p>
+                    <p>The description must be 255 characters or less.</p>
                   )}
                 </div>
 

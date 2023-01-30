@@ -10,7 +10,7 @@ import { Spinner } from "flowbite-react";
 export default function Flows() {
   const [flows, setFlows] = useState({});
 
-  const { data } = useSWR(
+  const { data, mutate } = useSWR(
     "https://api.singer.systems/flows",
     (url: string) => fetcher(url, { arg: ["GET", {}] }),
     {
@@ -30,7 +30,7 @@ export default function Flows() {
       setFlows({ loaded: false });
       console.log("else...!", data?.json);
     }
-  }, [data]);
+  }, [data, mutate]);
 
   return (
     <div>

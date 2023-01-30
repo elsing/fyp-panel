@@ -12,6 +12,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "./fetcher";
 import useSWRMutation from "swr/mutation";
+import { mutate } from "swr";
 
 export default function CreateModal({
   status,
@@ -41,9 +42,10 @@ export default function CreateModal({
 
   async function onSubmit(formResult: object) {
     setFormData(formResult);
-    trigger(["POST", formResult]);
+    await trigger(["POST", formResult]);
     setStatus(false);
     reset();
+    mutate("https://api.singer.systems/flows");
   }
 
   return (
@@ -70,9 +72,10 @@ export default function CreateModal({
               <Textarea
                 {...register("description", { required: true, maxLength: 255 })}
                 rows={4}
+                placeholder="Description"
               />
               {errors.description?.type === "maxLength" && (
-                <p>The name must be 255 characters or less.</p>
+                <p>The description must be 255 characters or less.</p>
               )}
               <div className="flex items-center gap-2">
                 <Checkbox {...register("monitor", {})} />

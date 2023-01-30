@@ -34,16 +34,20 @@ export default function DeleteFlowModal({
             />
           </svg>
 
-          <Label className="text-xl">
+          <Label className="text-xl font-bold">
             Are you sure you want to delete this flow?
           </Label>
         </div>
         <br />
-        <div className="flex justify-center">
-          <Button className="mr-2" onClick={onClose} color="purple" size="sm">
+        <div className="flex justify-center gap-4">
+          <Button onClick={onClose} color="purple">
             No, whoops
           </Button>
-          <Button onClick={deleteFlow} color="failure" size="sm">
+          <Button
+            onClick={() => deleteFlow()}
+            color="failure"
+            className="font-bold italic"
+          >
             Yes, goodbye
           </Button>
         </div>

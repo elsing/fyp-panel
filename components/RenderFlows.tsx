@@ -3,7 +3,6 @@
 import CreateFlow from "./CreateFlow";
 import ModifyModal from "./ModifyFlow";
 import { useEffect, useState } from "react";
-import { mutate } from "swr";
 
 export interface FlowConfig {
   flow_id: number;
@@ -35,7 +34,6 @@ export default function RenderFlows({
       setCreateModal(true);
     }
     setKey(id);
-    await mutate("https://api.singer.systems/flows");
   }
 
   return (
