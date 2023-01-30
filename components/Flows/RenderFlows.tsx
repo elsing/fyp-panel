@@ -88,11 +88,18 @@ export default function RenderFlows({
                 // data-modal-toggle="modify-flow-modal"
               >
                 <p>Name: {flow.name}</p>
-                <p>Status: {flow.status}</p>
+                <p>
+                  Status:{" "}
+                  {flow.status === "up"
+                    ? "✅"
+                    : flow.status === "down"
+                    ? "❌"
+                    : "❓"}
+                </p>
                 <p className="flex-wrap h-fit">
                   Description {flow.description}
                 </p>
-                <p>Monitored: {flow.monitor ? "Yes" : "No"}</p>
+                <p>Monitored: {flow.monitor ? "✅" : "❌"}</p>
                 <button
                   data-modal-target="modify-flow-modal"
                   data-modal-toggle="modify-flow-modal"

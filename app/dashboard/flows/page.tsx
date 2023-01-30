@@ -1,8 +1,8 @@
 "use client";
 
 import { Suspense } from "react";
-import RenderFlows from "@/components/RenderFlows";
-import { fetcher } from "@/components/fetcher";
+import RenderFlows from "@/components/Flows/RenderFlows";
+import { fetcher } from "@/components/Fetcher";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Spinner } from "flowbite-react";

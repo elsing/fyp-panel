@@ -6,8 +6,8 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
-import Darkmode from "@/components/darkmode";
-import { fetcher } from "@/components/fetcher";
+import Darkmode from "@/components/Navbar/DarkMode";
+import { fetcher } from "@/components/Fetcher";
 // import
 
 const inter = Inter({ subsets: ["latin"] });

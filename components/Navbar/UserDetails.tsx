@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import nextBase64 from "next-base64";
-import UserAvatar from "@/components/avatar";
+import UserAvatar from "@/components/Navbar/Avatar";
 
 export default function UserDetails() {
   function getInfo() {

@@ -1,4 +1,4 @@
-import Redirect from "@/components/authRedirect";
+import Redirect from "@/components/Navbar/AuthRedirect";
 import styles from "@/components/pattern.module.css";
 import { cookies } from "next/headers";
 

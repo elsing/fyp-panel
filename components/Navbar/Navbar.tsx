@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Logout from "@/components/logout";
-import UserDetails from "@/components/userDetails";
-import Darkmode from "@/components/darkmode";
+import Logout from "@/components/Navbar/Logout";
+import UserDetails from "@/components/Navbar/UserDetails";
+import Darkmode from "@/components/Navbar/DarkMode";
 
 export default function RenderNavbar() {
   return (

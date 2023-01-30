@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import Redirect from "@/components/authRedirect";
-import RenderNavbar from "@/components/navbar";
+import Redirect from "@/components/Navbar/AuthRedirect";
+import RenderNavbar from "@/components/Navbar/Navbar";
 
 export default function RootLayout({
   children,
