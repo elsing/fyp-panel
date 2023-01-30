@@ -24,7 +24,6 @@ export default function ModifyModal({
   setStatus: Function;
   flow: number | undefined;
 }) {
-  const [formData, setFormData] = useState<object>({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // For defining the form
@@ -48,12 +47,12 @@ export default function ModifyModal({
 
   // Handle model save button
   async function onSubmit(formResult: object) {
-    setFormData(formResult);
     await trigger(["PATCH", formResult]);
     setStatus(false);
     mutate("https://api.singer.systems/flows");
   }
 
+  // Handle flow delete button
   async function handleDelete() {
     await trigger(["DELETE", {}]);
     setShowDeleteModal(false);
@@ -61,7 +60,7 @@ export default function ModifyModal({
     mutate("https://api.singer.systems/flows");
   }
 
-  // Set the modal form data to the flow data
+  // Set the modify modal form data to the current flow data
   useEffect(() => {
     if (data?.code === 200) {
       reset(data?.json);
@@ -70,9 +69,11 @@ export default function ModifyModal({
 
   // Trigger the fetcher when the modal is opened
   useEffect(() => {
+    // Don't trigger if the modal is closed
     if (!status) {
       return;
     }
+    // If the flow is defined, trigger the fetcher
     if (flow !== undefined) {
       trigger(["GET", {}]);
     }
@@ -87,7 +88,7 @@ export default function ModifyModal({
       />
 
       <Modal show={status} onClose={onClose}>
-        <Modal.Header>Modify a flow</Modal.Header>
+        <Modal.Header>Modify a Flow</Modal.Header>
         <Modal.Body>
           <Suspense fallback={<p>testing...!</p>}>
             <div>
@@ -142,19 +143,19 @@ export default function ModifyModal({
         <Modal.Footer>
           <div className="flex flex-row justify-center w-full gap-2">
             <Button
+              color="failure"
+              onClick={() => setShowDeleteModal(true)}
+              className="flex w-1/2"
+            >
+              Delete
+            </Button>
+            <Button
               color="success"
               onClick={handleSubmit(onSubmit)}
               disabled={isMutating}
               className="flex w-1/2"
             >
               Save
-            </Button>
-            <Button
-              color="failure"
-              onClick={() => setShowDeleteModal(true)}
-              className="flex w-1/2"
-            >
-              Delete
             </Button>
           </div>
         </Modal.Footer>

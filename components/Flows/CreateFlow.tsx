@@ -8,7 +8,7 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "../Fetcher";
 import useSWRMutation from "swr/mutation";
@@ -30,15 +30,15 @@ export default function CreateModal({
     formState: { errors },
   } = useForm();
 
-  function onClose() {
-    setStatus(false);
-    reset();
-  }
-
   const { trigger, isMutating, data, error } = useSWRMutation(
     "https://api.singer.systems/flows/",
     fetcher
   );
+
+  function onClose() {
+    setStatus(false);
+    reset();
+  }
 
   async function onSubmit(formResult: object) {
     setFormData(formResult);
@@ -61,13 +61,15 @@ export default function CreateModal({
               <TextInput
                 type="text"
                 placeholder="Name"
-                {...register("name", { required: true, maxLength: 50 })}
+                {...register("name", { required: true, maxLength: 20 })}
               />
               {errors.name?.type === "required" && (
-                <p role="alert">A name is required!</p>
+                <p className="text-red-500">A name is required</p>
               )}
               {errors.name?.type === "maxLength" && (
-                <p>The name must be 50 characters or less.</p>
+                <p className="text-red-500">
+                  The name must be 20 characters or less.
+                </p>
               )}
               <Textarea
                 {...register("description", { required: true, maxLength: 255 })}
@@ -88,13 +90,13 @@ export default function CreateModal({
         </Suspense>
       </Modal.Body>
       <Modal.Footer>
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex flex-col w-full">
           <Button
             color="success"
             onClick={handleSubmit(onSubmit)}
             disabled={isMutating}
           >
-            Save
+            Create
           </Button>
         </div>
       </Modal.Footer>

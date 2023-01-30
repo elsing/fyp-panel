@@ -86,7 +86,7 @@ export default function RenderRivers({
                     handleClick(river.river_id);
                   }}
                 >
-                  Modify
+                  Configure
                 </button>
               </div>
             );
