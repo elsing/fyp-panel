@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
-import RenderFlows from "@/components/renderFlows";
+import RenderFlows from "@/components/RenderFlows";
 import { fetcher } from "@/components/fetcher";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -41,8 +41,11 @@ export default function Flows() {
         </h2>
       </div>
       <Suspense>
-        {data?.success ? (
-          <RenderFlows flows={data?.json} />
+        {data?.success || data?.code === 404 ? (
+          <RenderFlows
+            flows={data?.json}
+            empty={data?.code === 404 ? true : false}
+          />
         ) : (
           <div className="m-4 p-4">
             <p className="text-red-500">

@@ -1,8 +1,9 @@
 "use client";
 
-import CreateFlow from "@/components/createFlow";
+import CreateFlow from "./CreateFlow";
 import ModifyModal from "./ModifyFlow";
 import { useEffect, useState } from "react";
+import { mutate } from "swr";
 
 export interface FlowConfig {
   flow_id: number;
@@ -12,37 +13,30 @@ export interface FlowConfig {
   status: string;
   description: string;
   monitor: boolean;
-  // flows
+  api_key: string;
 }
 
-export default function RenderFlows({ flows }: { flows: FlowConfig[] }) {
+export default function RenderFlows({
+  flows,
+  empty,
+}: {
+  flows: FlowConfig[];
+  empty: boolean;
+}) {
   const [key, setKey] = useState<number>();
   const [trigger, setTrigger] = useState(false);
   const [showModifyModal, setShowModifyModal] = useState(false);
   const [showCreateModal, setCreateModal] = useState(false);
 
-  function handleClick(id: number) {
+  async function handleClick(id: number) {
     if (id !== 0) {
       setShowModifyModal(true);
     } else {
       setCreateModal(true);
     }
     setKey(id);
+    await mutate("https://api.singer.systems/flows");
   }
-
-  // useEffect(() => {
-  //   console.log("test");
-  //   if (key === undefined) {
-  //     return;
-  //   }
-  //   if (key !== 0) {
-  //     console.log("renderkeys:", key);
-  //     console.log("Modify attempt");
-  //     // setShowModifyModal(true);
-  //   } else {
-  //     console.log("Create attempt");
-  //   }
-  // }, [key]);
 
   return (
     <div>
@@ -52,6 +46,8 @@ export default function RenderFlows({ flows }: { flows: FlowConfig[] }) {
         setStatus={setShowModifyModal}
         flow={key}
       />
+      {/* Show the create flows button */}
+      <CreateFlow status={showCreateModal} setStatus={setCreateModal} />
 
       <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-pink-500 ">
         <div className="bg-gray-500 border-black border rounded-lg m-4 p-4 h-40 shadow-xl flex flex-col hover:bg-gray-400">
@@ -79,35 +75,39 @@ export default function RenderFlows({ flows }: { flows: FlowConfig[] }) {
             <h1 className="flex">Create</h1>
           </button>
         </div>
-        {flows.map((flow) => {
-          return (
-            <div
-              key={flow.flow_id}
-              data-key={flow.flow_id}
-              className="flex flex-col bg-gray-500 hover:bg-gray-400 border-black border rounded-lg m-4 p-4 h-40 shadow-xl"
-              // onClick={() => {
-              //   handleClick(flow.flow_id);
-              // }}
-              // data-modal-target="modify-flow-modal"
-              // data-modal-toggle="modify-flow-modal"
-            >
-              <p>Name: {flow.name}</p>
-              <p>Status: {flow.status}</p>
-              <p className="flex-wrap h-fit">Description {flow.description}</p>
-              <p>Monitored: {flow.monitor ? "Yes" : "No"}</p>
-              <button
-                data-modal-target="modify-flow-modal"
-                data-modal-toggle="modify-flow-modal"
-                type="button"
-                onClick={() => {
-                  handleClick(flow.flow_id);
-                }}
+        {/* If flows exist, map them */}
+        {!empty &&
+          flows.map((flow) => {
+            return (
+              <div
+                key={flow.flow_id}
+                data-key={flow.flow_id}
+                className="flex flex-col bg-gray-500 hover:bg-gray-400 border-black border rounded-lg m-4 p-4 h-40 shadow-xl"
+                // onClick={() => {
+                //   handleClick(flow.flow_id);
+                // }}
+                // data-modal-target="modify-flow-modal"
+                // data-modal-toggle="modify-flow-modal"
               >
-                test
-              </button>
-            </div>
-          );
-        })}
+                <p>Name: {flow.name}</p>
+                <p>Status: {flow.status}</p>
+                <p className="flex-wrap h-fit">
+                  Description {flow.description}
+                </p>
+                <p>Monitored: {flow.monitor ? "Yes" : "No"}</p>
+                <button
+                  data-modal-target="modify-flow-modal"
+                  data-modal-toggle="modify-flow-modal"
+                  type="button"
+                  onClick={() => {
+                    handleClick(flow.flow_id);
+                  }}
+                >
+                  Modify
+                </button>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

@@ -11,8 +11,9 @@ import {
 import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "./fetcher";
+import DeleteFlowModal from "./DeleteFlowModal";
 import useSWRMutation from "swr/mutation";
-import useSWR from "swr";
+import { mutate } from "swr";
 
 export default function ModifyModal({
   status,
@@ -23,10 +24,10 @@ export default function ModifyModal({
   setStatus: Function;
   flow: number | undefined;
 }) {
-  // const [method, setMethod] = useState("GET");
   const [formData, setFormData] = useState<object>({});
-  // const [trigger, setTrigger] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  // For defining the form
   const {
     register,
     handleSubmit,
@@ -34,109 +35,131 @@ export default function ModifyModal({
     formState: { errors },
   } = useForm();
 
-  function onClose() {
-    setStatus(false);
-    reset();
-  }
-
-  // const { trigger, isMutating, data, error } = useSWRMutation(
-  //   [`https://api.singer.systems/flows/${flow}`, "GET"],
-  //   ([url, method]) => fetcher(url, method, formData)
-  // );
-
+  // For setting or changing flow data
   const { trigger, isMutating, data, error } = useSWRMutation(
     `https://api.singer.systems/flows/${flow}`,
     fetcher
   );
 
-  // const { data } = useSWR(
-  //   trigger ? `https://api.singer.systems/flows/${flow}` : null,
-  //   (url: string) => fetcher(url, method, { formData }),
-  //   {
-  //     suspense: true,
-  //   }
-  // );
-
-  async function onSubmit(formResult: object) {
-    // setMethod("PATCH");
-    console.log(formResult);
-    await setFormData(formResult);
-    // console.log("before trigger", method, formData);
-    await trigger(["PATCH", formResult]);
+  // Close the modal
+  function onClose() {
     setStatus(false);
-    await reset();
   }
 
+  // Handle model save button
+  async function onSubmit(formResult: object) {
+    setFormData(formResult);
+    await trigger(["PATCH", formResult]);
+    setStatus(false);
+    mutate("https://api.singer.systems/flows");
+  }
+
+  async function handleDelete() {
+    await trigger(["DELETE", {}]);
+    console.log("Deleted!");
+    setShowDeleteModal(false);
+    setStatus(false);
+    mutate("https://api.singer.systems/flows");
+  }
+
+  // Set the modal form data to the flow data
+  useEffect(() => {
+    if (data?.code === 200) {
+      reset(data?.json);
+    }
+  }, [data, reset]);
+
+  // Trigger the fetcher when the modal is opened
   useEffect(() => {
     if (!status) {
       return;
     }
-    async function getData() {
-      // await setMethod("GET");
-      // console.log("before getData trigger", method);
-      await trigger(["GET", {}]);
-      console.log("data:", data?.json);
-    }
     if (flow !== undefined) {
-      getData();
+      trigger(["GET", {}]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, flow]);
+  }, [status, flow, trigger]);
 
   return (
-    <Modal show={status} onClose={onClose}>
-      <Modal.Header>Modify a flow</Modal.Header>
-      <Modal.Body>
-        <Suspense fallback={<p>testing...!</p>}>
-          <div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-2"
-            >
-              <TextInput
-                type="text"
-                placeholder="Name"
-                defaultValue={data?.json?.name}
-                {...register("name", { required: true, maxLength: 50 })}
-              />
-              {errors.name?.type === "required" && (
-                <p role="alert">A name is required!</p>
-              )}
-              {errors.name?.type === "maxLength" && (
-                <p>The name must be 50 characters or less.</p>
-              )}
-              <Textarea
-                {...register("description", { required: true, maxLength: 255 })}
-                rows={4}
-                defaultValue={data?.json?.description}
-              />
-              {errors.description?.type === "maxLength" && (
-                <p>The name must be 255 characters or less.</p>
-              )}
-              <div className="flex items-center gap-2">
-                <Checkbox
-                  {...register("monitor", {})}
-                  checked={data?.json ? data?.json.monitor : false}
-                />
-                <Label htmlFor="promotion">Monitor?</Label>
-              </div>
+    <div>
+      <DeleteFlowModal
+        status={showDeleteModal}
+        setStatus={setShowDeleteModal}
+        deleteFlow={handleDelete}
+      />
 
-              {/* <input type="submit" /> */}
-            </form>
+      <Modal show={status} onClose={onClose}>
+        <Modal.Header>Modify a flow</Modal.Header>
+        <Modal.Body>
+          <Suspense fallback={<p>testing...!</p>}>
+            <div>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-2"
+              >
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <TextInput
+                    type="text"
+                    {...register("name", { required: true, maxLength: 50 })}
+                  />
+                  {errors.name?.type === "required" && (
+                    <p role="alert">A name is required!</p>
+                  )}
+                  {errors.name?.type === "maxLength" && (
+                    <p>The name must be 50 characters or less.</p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    {...register("description", {
+                      required: true,
+                      maxLength: 255,
+                    })}
+                    rows={4}
+                  />
+                  {errors.description?.type === "maxLength" && (
+                    <p>The name must be 255 characters or less.</p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Checkbox {...register("monitor")} />
+                  <Label htmlFor="monitor">Monitor?</Label>
+                </div>
+
+                <div>
+                  <Label htmlFor="api_key">API Key</Label>
+                  <TextInput
+                    className="select-all"
+                    readOnly={true}
+                    {...register("api_key")}
+                  />
+                </div>
+              </form>
+            </div>
+          </Suspense>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="flex flex-row justify-center w-full gap-2">
+            <Button
+              color="success"
+              onClick={handleSubmit(onSubmit)}
+              disabled={isMutating}
+              className="flex w-1/2"
+            >
+              Save
+            </Button>
+            <Button
+              color="failure"
+              onClick={() => setShowDeleteModal(true)}
+              className="flex w-1/2"
+            >
+              Delete
+            </Button>
           </div>
-        </Suspense>
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="flex flex-col justify-center w-full">
-          <Button
-            color="success"
-            onClick={handleSubmit(onSubmit)}
-            disabled={isMutating}
-          >
-            Save
-          </Button>
-        </div>
-      </Modal.Footer>
-    </Modal>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 }

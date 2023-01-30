@@ -6,10 +6,8 @@ export async function fetcher(
   const input = arg[1];
 
   // input: object
-  console.log("fetcher called first", url, { arg });
   async function handleResponse(response: Response) {
     const json = await response.json();
-    console.log(response);
     if (!response.ok) {
       return { success: false, json: json, code: response.status };
     }
@@ -24,7 +22,7 @@ export async function fetcher(
         body: JSON.stringify(input),
       });
       return await handleResponse(response);
-    } else if (method === "GET") {
+    } else if (method === "GET" || method === "DELETE") {
       const response = await fetch(url, {
         method: method,
         credentials: "include",

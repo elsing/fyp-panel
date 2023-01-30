@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Inter } from "@next/font/google";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
@@ -31,27 +31,38 @@ export default function Login() {
     // watch,
     formState: { errors },
   } = useForm();
-  const { trigger, data, error, isMutating } = useSWRMutation(
+
+  let { trigger, data, error, isMutating } = useSWRMutation(
     "https://api.singer.systems/auth",
     fetcher
   );
 
-  const onSubmit = async (loginForm: any) => {
+  useEffect(() => {
+    if (data?.code) {
+      if (data?.code === 200) {
+        // Handle successful login
+        setloginSuccess(true);
+        router.push("/dashboard");
+      } else {
+        // Handle login error
+        setloginFailed(true);
+        setloginSuccess(false);
+        console.log("Login Failed!");
+      }
+    }
+  }, [data, router]);
+
+  const onSubmit = async (loginForm: object) => {
     setloginFailed(false);
     console.log("loginForm", loginForm);
     // Once form submited ex. {Email: 'John@example.com', Password: 'secret'}
     await trigger(["POST", loginForm]);
-    if (data?.code === 200) {
-      // Handle successful login
-      setloginSuccess(true);
-      router.push("/dashboard");
-    } else {
-      // Handle login error
-      setloginFailed(true);
-      setloginSuccess(false);
-      console.log("Login Failed!");
-    }
+    // fetch("https://api.singer.systems/auth", {
+    //   method: "POST",
+    //   body: JSON.stringify(loginForm),
+    // });
   };
+
   // bg-gray-200 dark:bg-gray-900
   return (
     <main>
