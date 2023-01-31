@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateRiver from "./CreateRiver";
-import ModifyRiver from "./ModifyRiver";
+import ModifyRiver from "./ConfigureRiver";
+import { fetcher } from "../Fetcher";
+import useSWR from "swr";
 
 export interface RiverConfig {
   river_id: number;
@@ -21,6 +23,7 @@ export default function RenderRivers({
   const [key, setKey] = useState<number>();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showModifyModal, setShowModifyModal] = useState(false);
+  const [flowData, setFlowData] = useState<object>({});
 
   function handleClick(id: number) {
     if (id !== 0) {
@@ -31,6 +34,21 @@ export default function RenderRivers({
     setKey(id);
   }
 
+  // const { data } = useSWR(
+  //   "https://api.singer.systems/flows",
+  //   (url: string) => fetcher(url, { arg: ["GET", {}] }),
+  //   {
+  //     suspense: true,
+  //   }
+  // );
+
+  //   useEffect(() => {
+  //     console.log("Refresh River Flows");
+  //     if (data?.success) {
+  //       console.log("data:", data.json);
+  //     }
+  //   }, [data]);
+
   return (
     <div>
       <CreateRiver status={showCreateModal} setStatus={setShowCreateModal} />
@@ -38,6 +56,7 @@ export default function RenderRivers({
         status={showModifyModal}
         setStatus={setShowModifyModal}
         river={key}
+        // dataEmpty={data?.code === 404 ? true : false}
       />
       <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-pink-500 ">
         <div className="bg-gray-500 border-black border rounded-lg m-4 p-4 h-40 shadow-xl flex flex-col hover:bg-gray-400">
@@ -94,4 +113,7 @@ export default function RenderRivers({
       </div>
     </div>
   );
+}
+function setFlows(json: any) {
+  throw new Error("Function not implemented.");
 }

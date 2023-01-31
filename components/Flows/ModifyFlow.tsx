@@ -100,13 +100,13 @@ export default function ModifyModal({
                   <Label htmlFor="name">Name</Label>
                   <TextInput
                     type="text"
-                    {...register("name", { required: true, maxLength: 50 })}
+                    {...register("name", { required: true, maxLength: 20 })}
                   />
                   {errors.name?.type === "required" && (
                     <p role="alert">A name is required!</p>
                   )}
                   {errors.name?.type === "maxLength" && (
-                    <p>The name must be 50 characters or less.</p>
+                    <p>The name must be 20 characters or less.</p>
                   )}
                 </div>
                 <div>
@@ -126,6 +126,13 @@ export default function ModifyModal({
                 <div className="flex items-center gap-2">
                   <Checkbox {...register("monitor")} />
                   <Label htmlFor="monitor">Monitor?</Label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Checkbox {...register("locked")} />
+                  <Label htmlFor="locked">
+                    Locked? (Make unavaliable to rivers)
+                  </Label>
                 </div>
 
                 <div>

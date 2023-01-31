@@ -19,8 +19,8 @@ export default function Flows() {
   );
 
   useEffect(() => {
-    console.log("Refresh Flows");
     if (data?.success) {
+      console.log("Refresh Flows");
       setFlows(data.json);
       console.log("data:", data.json);
     }
@@ -41,20 +41,18 @@ export default function Flows() {
           These are the daemons that connect to each other to create streams.
         </h2>
       </div>
-      <Suspense>
-        {data?.success || data?.code === 404 ? (
-          <RenderFlows
-            flows={data?.json}
-            empty={data?.code === 404 ? true : false}
-          />
-        ) : (
-          <div className="m-4 p-4">
-            <p className="text-red-500">
-              Unable to load flows, please try again.
-            </p>
-          </div>
-        )}
-      </Suspense>
+      {data?.success || data?.code === 404 ? (
+        <RenderFlows
+          flows={data?.json}
+          empty={data?.code === 404 ? true : false}
+        />
+      ) : (
+        <div className="m-4 p-4">
+          <p className="text-red-500">
+            Unable to load flows, please try again.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ export async function fetcher(
   async function handleResponse(response: Response) {
     const json = await response.json();
     if (!response.ok) {
+      console.log("Error:", json);
       return { success: false, json: json, code: response.status };
     }
     return { success: true, json: json, code: response.status };

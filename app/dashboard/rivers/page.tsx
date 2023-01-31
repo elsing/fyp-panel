@@ -8,12 +8,8 @@ import useSWR from "swr";
 export default function Rivers() {
   const [rivers, setRivers] = useState({});
 
-  const { data } = useSWR(
-    "https://api.singer.systems/rivers",
-    (url: string) => fetcher(url, { arg: ["GET", {}] }),
-    {
-      suspense: true,
-    }
+  const { data } = useSWR("https://api.singer.systems/rivers", (url: string) =>
+    fetcher(url, { arg: ["GET", {}] })
   );
 
   useEffect(() => {

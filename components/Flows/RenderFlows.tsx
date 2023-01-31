@@ -13,6 +13,7 @@ export interface FlowConfig {
   description: string;
   monitor: boolean;
   api_key: string;
+  locked: boolean;
 }
 
 export default function RenderFlows({
@@ -95,6 +96,7 @@ export default function RenderFlows({
                   Description {flow.description}
                 </p>
                 <p>Monitored: {flow.monitor ? "✅" : "❌"}</p>
+                <p>Locked: {flow.locked ? "🔒" : "🔓"}</p>
                 <button
                   data-modal-target="modify-flow-modal"
                   data-modal-toggle="modify-flow-modal"

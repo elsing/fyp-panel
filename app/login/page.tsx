@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Inter } from "@next/font/google";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, Spinner, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
@@ -98,18 +98,18 @@ export default function Login() {
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div> */}
-          {loginSuccess && (
-            <Button type="submit" disabled={isMutating || loginSuccess}>
-              {/* disabled={!dirty || isSubmitting} */}
-              Success...redirecting!
-            </Button>
-          )}
-          {loginSuccess === false && (
-            <Button type="submit" disabled={isMutating || loginSuccess}>
-              {/* disabled={!dirty || isSubmitting} */}
-              Submit
-            </Button>
-          )}
+          <Button type="submit" disabled={isMutating || loginSuccess}>
+            {loginSuccess ? (
+              <div>
+                <div className="mr-3">
+                  <Spinner size="sm" light={true} />
+                </div>
+                Loading...
+              </div>
+            ) : (
+              "Submit"
+            )}
+          </Button>
           {loginFailed && (
             <Label
               className="font-bold text-center text-red-500 text-xl"
