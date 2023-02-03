@@ -2,26 +2,26 @@
 
 import { Modal } from "flowbite-react";
 import { useState } from "react";
-import RiverForm from "./Modal/RiverForm";
-import DeleteFooter from "./Modal/DeleteFooter";
-import SaveFooter from "./Modal/SaveFooter";
-import DeltaForm from "./Modal/DeltaForm";
+import RiverForm from "./RiverForm";
+import DeltaForm from "./DeltaForm";
 import { useModalContext } from "@/components/Context/modal";
+import SaveFooter from "@/components/Shared/Modal/SaveFooter";
+import DeleteFooter from "@/components/Shared/Modal/DeleteFooter";
 
 export default function ConfigureDelta({ delta }: { delta: number }) {
   // For saving the delta
   const [formData, setFormData] = useState(undefined);
   const [saveData, setSaveData] = useState(false);
-  const { deltaModalStatus, setDeltaModalStatus } = useModalContext();
+  const { configureModalStatus, setConfigureModalStatus } = useModalContext();
 
   // For closing the modal
   function onClose() {
-    setDeltaModalStatus(false);
+    setConfigureModalStatus(false);
   }
 
   return (
     <div>
-      <Modal show={deltaModalStatus} onClose={onClose}>
+      <Modal show={configureModalStatus} onClose={onClose}>
         <Modal.Header>Configure Delta / Streams</Modal.Header>
         <Modal.Body>
           <div>
@@ -35,10 +35,10 @@ export default function ConfigureDelta({ delta }: { delta: number }) {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter delta={delta} />
-
+          <DeleteFooter data_key={delta} role="deltas" />
           <SaveFooter
-            delta={delta}
+            data_key={delta}
+            role="deltas"
             setSaveData={setSaveData}
             formData={formData}
           />

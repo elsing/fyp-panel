@@ -1,4 +1,4 @@
-export interface DeltaConfig {
+interface DeltaConfig {
   delta_id: number;
   org_id: number;
   name: string;

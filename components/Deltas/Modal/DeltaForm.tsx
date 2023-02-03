@@ -13,7 +13,7 @@ export default function DeltaForm({
   saveData: boolean;
   setFormData: Function;
 }) {
-  // For defining the form
+  // Register the form
   const {
     register,
     getValues,
@@ -22,9 +22,9 @@ export default function DeltaForm({
   } = useForm();
 
   const { trigger, isMutating, data, error } = useAPI(`delta/${delta}`);
-  const { deltaModalStatus } = useModalContext();
+  const { configureModalStatus } = useModalContext();
 
-  // When the data is loaded, reset the form
+  // When the data is loaded, load the flow details
   useEffect(() => {
     if (data?.code === 200) {
       reset(data?.json);
@@ -33,10 +33,10 @@ export default function DeltaForm({
 
   // Trigger the fetcher when the modal is opened
   useEffect(() => {
-    if (deltaModalStatus) {
+    if (configureModalStatus) {
       trigger(["GET", {}]);
     }
-  }, [deltaModalStatus, trigger]);
+  }, [configureModalStatus, trigger]);
 
   // When user clicks save, set the form data
   useEffect(() => {

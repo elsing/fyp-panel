@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CreateDelta from "./CreateDelta";
-import ConfigureDelta from "./ConfigureDelta";
+import CreateDelta from "./Modal/CreateDelta";
+import ConfigureDelta from "./Modal/ConfigureDelta";
 import { fetcher } from "../Fetcher";
 import useSWR from "swr";
 import CreateButton from "../Shared/CreateButton";
 import DeltaTile from "./DeltaTile";
 import { useModalContext } from "@/components/Context/modal";
 
-export interface DeltaConfig {
+interface DeltaConfig {
   delta_id: number;
   org_id: number;
   name: string;
@@ -25,12 +25,12 @@ export default function RenderDeltas({
 }) {
   const [key, setKey] = useState<number>(0);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const { setDeltaModalStatus } = useModalContext();
+  const { setConfigureModalStatus } = useModalContext();
   const [showModifyModal, setShowModifyModal] = useState(false);
 
   function handleClick(id: number) {
     if (id !== 0) {
-      setDeltaModalStatus(true);
+      setConfigureModalStatus(true);
     } else {
       setShowCreateModal(true);
     }
@@ -50,7 +50,7 @@ export default function RenderDeltas({
               <DeltaTile
                 delta={delta}
                 handleClick={handleClick}
-                key={"tile" + i}
+                key={"delta-tile" + i}
               />
             );
           })}

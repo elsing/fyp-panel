@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { fetcher } from "../Fetcher";
+import { fetcher } from "../../Fetcher";
 import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
 import { Button, Modal, TextInput } from "flowbite-react";

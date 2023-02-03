@@ -2,13 +2,9 @@ import { useModalContext } from "@/components/Context/modal";
 import useAPI from "@/components/Hooks/useAPI";
 import DeleteModal from "@/components/Shared/DeleteModal";
 import { Button } from "flowbite-react";
-import { useState } from "react";
-import { mutate } from "swr";
 
 export default function DeleteFooter({ delta }: { delta: number }) {
-  // Handle delta delete button
-
-  const { trigger, isMutating, data, error } = useAPI(`delta/${delta}`);
+  // Handle delete button
   const { setDeleteModalStatus } = useModalContext();
 
   return (

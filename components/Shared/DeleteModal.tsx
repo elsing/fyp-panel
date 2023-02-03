@@ -15,7 +15,7 @@ export default function DeleteModal({
 }) {
   const { trigger, isMutating, data, error } = useAPI(`${role}/${role_key}`);
   const { deleteModalStatus, setDeleteModalStatus } = useModalContext();
-  const { setDeltaModalStatus } = useModalContext();
+  const { setConfigureModalStatus } = useModalContext();
 
   function onClose() {
     setDeleteModalStatus(false);
@@ -24,7 +24,7 @@ export default function DeleteModal({
   async function handleDelete() {
     await trigger(["DELETE", {}]);
     setDeleteModalStatus(false);
-    setDeltaModalStatus(false);
+    setConfigureModalStatus(false);
     mutate(`https://api.singer.systems/${role}`);
   }
 
