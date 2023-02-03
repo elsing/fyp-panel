@@ -19,14 +19,14 @@ export default function MapRivers({
   update: boolean;
 }) {
   const { trigger, isMutating, data, error } = useAPI(`deltarivers/${delta}`);
-  const { deltaModalStatus } = useModalContext();
+  const { configureModalStatus } = useModalContext();
 
   useEffect(() => {
-    if (deltaModalStatus) {
+    if (configureModalStatus) {
       console.log("useEffect");
       trigger(["GET", {}]);
     }
-  }, [deltaModalStatus, update, trigger]);
+  }, [configureModalStatus, update, trigger]);
 
   return data?.success ? (
     data.json.map((river: River) => (

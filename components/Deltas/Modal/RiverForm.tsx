@@ -11,7 +11,7 @@ import RenderRivers from "./MapRivers";
 export default function RiverForm({ delta }: { delta: number }) {
   const { trigger, isMutating, data, error } = useAPI("rivers");
   const [update, setUpdate] = useState(false);
-  const { deltaModalStatus } = useModalContext();
+  const { configureModalStatus } = useModalContext();
 
   const {
     register,
@@ -29,10 +29,10 @@ export default function RiverForm({ delta }: { delta: number }) {
   }
 
   useEffect(() => {
-    if (deltaModalStatus) {
+    if (configureModalStatus) {
       reset();
     }
-  }, [deltaModalStatus, reset]);
+  }, [configureModalStatus, reset]);
 
   return (
     <div>

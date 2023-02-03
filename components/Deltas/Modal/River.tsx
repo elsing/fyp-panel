@@ -14,7 +14,6 @@ export default function River({ river }: { river: River }) {
 
   return (
     <div>
-      <DeleteModal role="rivers" role_key={river.river_id} />
       <div className="flex flex-row gap-2 my-2" key={"div" + river.river_id}>
         <TextInput
           type="text"
@@ -34,6 +33,7 @@ export default function River({ river }: { river: River }) {
           color="failure"
           className="flex w-1/6"
           key={"delete" + river.river_id}
+          disabled={true}
           onClick={() => setDeleteModalStatus(true)}
         >
           Delete
