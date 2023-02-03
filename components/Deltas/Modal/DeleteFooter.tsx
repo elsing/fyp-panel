@@ -1,39 +1,22 @@
+import { useModalContext } from "@/components/Context/modal";
 import useAPI from "@/components/Hooks/useAPI";
+import DeleteModal from "@/components/Shared/DeleteModal";
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { mutate } from "swr";
-import DeleteDeltaModal from "../DeleteDeltaModal";
 
-export default function DeleteFooter({
-  delta,
-  setStatus,
-}: {
-  delta: number;
-  setStatus: Function;
-}) {
+export default function DeleteFooter({ delta }: { delta: number }) {
   // Handle delta delete button
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { trigger, isMutating, data, error } = useAPI(`delta/${delta}`);
-
-  // Delete specified delta
-  async function handleDelete() {
-    await trigger(["DELETE", {}]);
-    setShowDeleteModal(false);
-    setStatus(false);
-    mutate("https://api.singer.systems/deltas");
-  }
+  const { setDeleteModalStatus } = useModalContext();
 
   return (
     <div className="flex w-1/2">
-      <DeleteDeltaModal
-        status={showDeleteModal}
-        setStatus={setShowDeleteModal}
-        deleteDelta={handleDelete}
-      />
+      <DeleteModal role="deltas" role_key={delta} />
       <Button
         color="failure"
-        onClick={() => setShowDeleteModal(true)}
+        onClick={() => setDeleteModalStatus(true)}
         className="w-full"
       >
         Delete

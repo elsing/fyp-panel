@@ -11,9 +11,10 @@ import {
 import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "../Fetcher";
-import DeleteFlowModal from "./DeleteFlowModal";
 import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
+import DeleteModal from "../Shared/DeleteModal";
+import { useModalContext } from "../Context/modal";
 
 export default function ModifyModal({
   status,
@@ -24,7 +25,7 @@ export default function ModifyModal({
   setStatus: Function;
   flow: number | undefined;
 }) {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { setDeleteModalStatus } = useModalContext();
 
   // For defining the form
   const {
@@ -55,7 +56,7 @@ export default function ModifyModal({
   // Handle flow delete button
   async function handleDelete() {
     await trigger(["DELETE", {}]);
-    setShowDeleteModal(false);
+    setDeleteModalStatus(false);
     setStatus(false);
     mutate("https://api.singer.systems/flows");
   }
@@ -81,11 +82,7 @@ export default function ModifyModal({
 
   return (
     <div>
-      <DeleteFlowModal
-        status={showDeleteModal}
-        setStatus={setShowDeleteModal}
-        deleteFlow={handleDelete}
-      />
+      <DeleteModal role="flows" role_key={flow} />
 
       <Modal show={status} onClose={onClose}>
         <Modal.Header>Modify a Flow</Modal.Header>
@@ -151,7 +148,7 @@ export default function ModifyModal({
           <div className="flex flex-row justify-center w-full gap-2">
             <Button
               color="failure"
-              onClick={() => setShowDeleteModal(true)}
+              onClick={() => setDeleteModalStatus(true)}
               className="flex w-1/2"
             >
               Delete

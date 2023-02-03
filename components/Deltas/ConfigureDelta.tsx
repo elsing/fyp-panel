@@ -6,49 +6,39 @@ import RiverForm from "./Modal/RiverForm";
 import DeleteFooter from "./Modal/DeleteFooter";
 import SaveFooter from "./Modal/SaveFooter";
 import DeltaForm from "./Modal/DeltaForm";
+import { useModalContext } from "@/components/Context/modal";
 
-export default function ConfigureDelta({
-  status,
-  setStatus,
-  delta,
-}: // dataEmpty,
-{
-  status: boolean;
-  setStatus: Function;
-  delta: number;
-  // dataEmpty: boolean;
-}) {
+export default function ConfigureDelta({ delta }: { delta: number }) {
   // For saving the delta
   const [formData, setFormData] = useState(undefined);
   const [saveData, setSaveData] = useState(false);
+  const { deltaModalStatus, setDeltaModalStatus } = useModalContext();
 
   // For closing the modal
   function onClose() {
-    setStatus(false);
+    setDeltaModalStatus(false);
   }
 
   return (
     <div>
-      <Modal show={status} onClose={onClose}>
+      <Modal show={deltaModalStatus} onClose={onClose}>
         <Modal.Header>Configure Delta / Streams</Modal.Header>
         <Modal.Body>
           <div>
             <DeltaForm
               delta={delta}
-              status={status}
               saveData={saveData}
               setFormData={setFormData}
             />
 
-            <RiverForm delta={delta} status={status} />
+            <RiverForm delta={delta} />
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter delta={delta} setStatus={setStatus} />
+          <DeleteFooter delta={delta} />
 
           <SaveFooter
             delta={delta}
-            setStatus={setStatus}
             setSaveData={setSaveData}
             formData={formData}
           />

@@ -8,6 +8,7 @@ import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 import Darkmode from "@/components/Navbar/DarkMode";
 import { fetcher } from "@/components/Fetcher";
+import useAPI from "@/components/Hooks/useAPI";
 // import
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,17 +33,14 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  let { trigger, data, error, isMutating } = useSWRMutation(
-    "https://api.singer.systems/auth",
-    fetcher
-  );
+  const { trigger, data, error, isMutating } = useAPI("auth");
 
   useEffect(() => {
     if (data?.code) {
       if (data?.code === 200) {
         // Handle successful login
-        setloginSuccess(true);
         router.push("/dashboard");
+        setloginSuccess(true);
       } else {
         // Handle login error
         setloginFailed(true);
@@ -50,17 +48,13 @@ export default function Login() {
         console.log("Login Failed!");
       }
     }
-  }, [data, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const onSubmit = async (loginForm: object) => {
     setloginFailed(false);
     console.log("loginForm", loginForm);
-    // Once form submited ex. {Email: 'John@example.com', Password: 'secret'}
     await trigger(["POST", loginForm]);
-    // fetch("https://api.singer.systems/auth", {
-    //   method: "POST",
-    //   body: JSON.stringify(loginForm),
-    // });
   };
 
   // bg-gray-200 dark:bg-gray-900

@@ -1,3 +1,4 @@
+import { useModalContext } from "@/components/Context/modal";
 import { Label, TextInput } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -5,12 +6,10 @@ import useAPI from "../../Hooks/useAPI";
 
 export default function DeltaForm({
   delta,
-  status,
   saveData,
   setFormData,
 }: {
   delta: number;
-  status: boolean;
   saveData: boolean;
   setFormData: Function;
 }) {
@@ -23,6 +22,7 @@ export default function DeltaForm({
   } = useForm();
 
   const { trigger, isMutating, data, error } = useAPI(`delta/${delta}`);
+  const { deltaModalStatus } = useModalContext();
 
   // When the data is loaded, reset the form
   useEffect(() => {
@@ -33,10 +33,10 @@ export default function DeltaForm({
 
   // Trigger the fetcher when the modal is opened
   useEffect(() => {
-    if (status) {
+    if (deltaModalStatus) {
       trigger(["GET", {}]);
     }
-  }, [status, trigger]);
+  }, [deltaModalStatus, trigger]);
 
   // When user clicks save, set the form data
   useEffect(() => {

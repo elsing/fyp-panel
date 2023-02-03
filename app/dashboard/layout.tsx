@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import Redirect from "@/components/Navbar/AuthRedirect";
 import RenderNavbar from "@/components/Navbar/Navbar";
+import StatusContext from "@/components/Context/modal";
 
 export default function RootLayout({
   children,
@@ -19,7 +20,7 @@ export default function RootLayout({
     return (
       <main className="dark:text-white">
         <RenderNavbar />
-        {children}
+        <StatusContext>{children}</StatusContext>
         <footer>Footer</footer>
       </main>
     );

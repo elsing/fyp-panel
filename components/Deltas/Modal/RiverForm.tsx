@@ -1,22 +1,17 @@
 "use client";
-
+import { useModalContext } from "@/components/Context/modal";
 import { Button, Label, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAPI from "../../Hooks/useAPI";
-import RenderRivers from "./RenderRivers";
+import RenderRivers from "./MapRivers";
 
 // There is prop drilling here, this needs to be reviewed.
 
-export default function RiverForm({
-  status,
-  delta,
-}: {
-  status: boolean;
-  delta: number;
-}) {
+export default function RiverForm({ delta }: { delta: number }) {
   const { trigger, isMutating, data, error } = useAPI("rivers");
   const [update, setUpdate] = useState(false);
+  const { deltaModalStatus } = useModalContext();
 
   const {
     register,
@@ -34,10 +29,10 @@ export default function RiverForm({
   }
 
   useEffect(() => {
-    if (status) {
+    if (deltaModalStatus) {
       reset();
     }
-  }, [status, reset]);
+  }, [deltaModalStatus, reset]);
 
   return (
     <div>
@@ -78,7 +73,7 @@ export default function RiverForm({
       <div>
         <Label htmlFor="rivers">Existing rivers in this delta.</Label>
         <br />
-        <RenderRivers delta={delta} status={status} update={update} />
+        <RenderRivers delta={delta} update={update} />
       </div>
     </div>
   );
