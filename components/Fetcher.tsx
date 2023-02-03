@@ -5,6 +5,13 @@ export async function fetcher(
   const method = arg[0];
   const input = arg[1];
 
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  setTimeout(() => {
+    controller.abort();
+  }, 5000);
+
   // input: object
   async function handleResponse(response: Response) {
     const json = await response.json();
@@ -21,12 +28,14 @@ export async function fetcher(
         method: method,
         credentials: "include",
         body: JSON.stringify(input),
+        signal: signal,
       });
       return await handleResponse(response);
     } else if (method === "GET" || method === "DELETE") {
       const response = await fetch(url, {
         method: method,
         credentials: "include",
+        signal: signal,
       });
       return await handleResponse(response);
     }

@@ -5,18 +5,18 @@ import { Modal, Button, Label } from "flowbite-react";
 export default function DeleteFlowModal({
   status,
   setStatus,
-  deleteRiver,
+  deleteDelta,
 }: {
   status: boolean;
   setStatus: Function;
-  deleteRiver: Function;
+  deleteDelta: Function;
 }) {
   function onClose() {
     setStatus(false);
   }
 
   return (
-    <Modal title="Delete River" show={status} onClose={onClose}>
+    <Modal title="Delete Delta" show={status} onClose={onClose}>
       <Modal.Body>
         <div className="flex flex-col items-center">
           <svg
@@ -25,7 +25,7 @@ export default function DeleteFlowModal({
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-24 h-24"
+            className="w-16 h-16"
           >
             <path
               strokeLinecap="round"
@@ -34,10 +34,11 @@ export default function DeleteFlowModal({
             />
           </svg>
 
-          <Label className="text-xl font-bold">
-            Are you sure you want to delete this flow?
+          <Label className="text-l font-bold">
+            Are you sure you want to delete this Delta (including all Rivers and
+            Streams)?
           </Label>
-          <Label className="text-xl font-bold">
+          <Label className="text-xl italic">
             This could cause a lot of problems.
           </Label>
         </div>
@@ -47,7 +48,7 @@ export default function DeleteFlowModal({
             No, close one
           </Button>
           <Button
-            onClick={() => deleteRiver()}
+            onClick={() => deleteDelta()}
             color="failure"
             className="font-bold italic"
           >

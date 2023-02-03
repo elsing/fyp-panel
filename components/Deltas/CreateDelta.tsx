@@ -7,7 +7,7 @@ import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
 import { Button, Modal, TextInput } from "flowbite-react";
 
-export default function CreateRiver({
+export default function CreateDelta({
   status,
   setStatus,
 }: {
@@ -24,7 +24,7 @@ export default function CreateRiver({
   } = useForm();
 
   const { trigger, isMutating, data, error } = useSWRMutation(
-    "https://api.singer.systems/rivers/",
+    "https://api.singer.systems/deltas/",
     fetcher
   );
 
@@ -38,12 +38,12 @@ export default function CreateRiver({
     await trigger(["POST", formResult]);
     setStatus(false);
     reset();
-    mutate("https://api.singer.systems/rivers");
+    mutate("https://api.singer.systems/deltas");
   }
 
   return (
     <Modal show={status} onClose={onClose}>
-      <Modal.Header>Create a river</Modal.Header>
+      <Modal.Header>Create a delta</Modal.Header>
       <Modal.Body>
         <div>
           <form

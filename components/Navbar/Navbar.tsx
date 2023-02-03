@@ -27,10 +27,16 @@ export default function RenderNavbar() {
           <h1>Flows</h1>
         </Link>
         <Link
-          href="/dashboard/rivers"
+          href="/dashboard/streams"
           className="bg-gray-300 dark:bg-gray-600 rounded-xl px-4 py-2 hover:bg-gray-400 dark:hover:bg-gray-500"
         >
-          <h1>Rivers</h1>
+          <h1>Streams</h1>
+        </Link>
+        <Link
+          href="/dashboard/deltas"
+          className="bg-gray-300 dark:bg-gray-600 rounded-xl px-4 py-2 hover:bg-gray-400 dark:hover:bg-gray-500"
+        >
+          <h1>Deltas</h1>
         </Link>
         <Link
           href="/dashboard/settings"
