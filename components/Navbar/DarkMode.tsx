@@ -5,27 +5,25 @@ import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
 export default function Darkmode() {
-  function useDarkMode() {
-    const [theme, setTheme] = useState(
-      typeof window !== "undefined" ? localStorage.theme : "dark"
-    );
-    const colorTheme = theme === "dark" ? "light" : "dark";
+  const [theme, setTheme] = useState(
+    typeof window !== "undefined" ? localStorage.theme : "dark"
+  );
+  const colorTheme = theme === "dark" ? "light" : "dark";
 
-    useEffect(() => {
-      const root = window.document.documentElement;
+  useEffect(() => {
+    const root = window.document.documentElement;
 
-      root.classList.remove(colorTheme);
-      root.classList.add(theme);
+    root.classList.remove(colorTheme);
+    root.classList.add(theme);
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem("theme", theme);
-      }
-    }, [theme, colorTheme]);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme, colorTheme]);
 
-    return [colorTheme, setTheme];
-  }
+  // return [colorTheme, setTheme];
 
-  const [colourTheme, setTheme] = useDarkMode();
+  // const [colourTheme, setTheme] = useDarkMode();
   // const { theme, setTheme } = useTheme();
 
   //   function changeTheme(mode: string) {
@@ -43,9 +41,13 @@ export default function Darkmode() {
   //     localStorage.getItem("theme")
   //   );
 
+  // useEffect(() => {
+  //   setTheme("light");
+  // }, [setTheme]);
+
   return (
     <div className="w-fit">
-      {colourTheme === "light" ? (
+      {colorTheme === "light" ? (
         <button onClick={() => setTheme("light")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

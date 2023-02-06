@@ -1,3 +1,5 @@
+"use client";
+
 import { useModalContext } from "@/components/Context/modal";
 import { Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 import { useEffect } from "react";

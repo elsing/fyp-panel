@@ -46,7 +46,7 @@ export default function RenderFlows({
       {/* Show the create flows button */}
       <CreateFlow status={showCreateModal} setStatus={setCreateModal} />
 
-      <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-pink-500 ">
+      <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-gray-200 dark:bg-cyan-700 ">
         <CreateButton handleClick={handleClick} />
         {/* If flows exist, map them */}
         {!empty &&

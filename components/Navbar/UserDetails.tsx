@@ -8,7 +8,7 @@ export default function UserDetails() {
     const userCookies = cookies();
     try {
       const payload = userCookies.get("auth_token");
-      const cookie = String(payload.value).split(".", 2);
+      const cookie = String(payload?.value).split(".", 2);
       const data = nextBase64.decode(String(cookie[1]));
       const userInfo = JSON.parse(data);
       return userInfo;

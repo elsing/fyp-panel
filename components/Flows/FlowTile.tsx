@@ -1,3 +1,5 @@
+"use client";
+
 interface IFlow {
   flow_id: number;
   org_id: number;
@@ -18,7 +20,7 @@ export default function FlowTile({
   handleClick: Function;
 }) {
   return (
-    <div className="flex flex-col bg-gray-500 hover:bg-gray-400 border-black border rounded-lg m-4 p-4 h-40 shadow-xl">
+    <div className="flex flex-col bg-gray-500 hover:bg-gray-400 border-black border rounded-lg m-4 p-4 h-min shadow-xl">
       <p className="text-center font-bold">{flow.name}</p>
       <p>
         Status:{" "}

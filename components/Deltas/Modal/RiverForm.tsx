@@ -6,8 +6,6 @@ import { useForm } from "react-hook-form";
 import useAPI from "../../Hooks/useAPI";
 import RenderRivers from "./MapRivers";
 
-// There is prop drilling here, this needs to be reviewed.
-
 export default function RiverForm({ delta }: { delta: number }) {
   const { trigger, isMutating, data, error } = useAPI("rivers");
   const [update, setUpdate] = useState(false);
