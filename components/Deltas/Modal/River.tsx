@@ -1,5 +1,3 @@
-import { useModalContext } from "@/components/Context/modal";
-import DeleteModal from "@/components/Shared/DeleteModal";
 import { Button, TextInput } from "flowbite-react";
 
 interface River {
@@ -10,7 +8,15 @@ interface River {
 }
 
 export default function River({ river }: { river: River }) {
-  const { setDeleteModalStatus } = useModalContext();
+  // const { setDeleteModalStatus } = useModalContext();
+  // const { setConfigureModalStatus } = useModalContext();
+  // const { trigger, error } = useAPI(`rivers/${id}`);
+
+  // async function handleDeleteRiver(id: number) {
+  //   console.log("River_id", id);
+  //   await trigger(["DELETE", { id: river.river_id }]);
+  //   setConfigureModalStatus(false);
+  // }
 
   return (
     <div>
@@ -19,7 +25,7 @@ export default function River({ river }: { river: River }) {
           type="text"
           defaultValue={river.name}
           key={"river" + river.river_id}
-          className="flex w-4/6"
+          className="flex w-5/6"
         />
         <TextInput
           type="text"
@@ -29,15 +35,17 @@ export default function River({ river }: { river: River }) {
           disabled={true}
           className="flex w-1/6"
         />
-        <Button
+        {/* <Button
           color="failure"
           className="flex w-1/6"
           key={"delete" + river.river_id}
-          disabled={true}
-          onClick={() => setDeleteModalStatus(true)}
+          data-key={river.river_id}
+          // disabled={true}
+          onClick={() => handleDeleteRiver(river.river_id)}
+          // onClick={() => setDeleteModalStatus(true)}
         >
           Delete
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

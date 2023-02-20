@@ -20,7 +20,7 @@ export default function ConfigureFlow({ flow }: { flow: number }) {
 
   return (
     <div>
-      <DeleteModal role="flows" role_key={flow} />
+      <DeleteModal role="flows" role_key={flow} url="flows" />
 
       <Modal show={configureModalStatus} onClose={onClose}>
         <Modal.Header>Modify a Flow</Modal.Header>

@@ -8,8 +8,16 @@ import useSWR from "swr";
 export default function Deltas() {
   const [deltas, setDeltas] = useState({});
 
-  const { data } = useSWR("https://api.singer.systems/deltas", (url: string) =>
-    fetcher(url, { arg: ["GET", {}] })
+  // const { data } = useSWR("https://api.singer.systems/deltas", (url: string) =>
+  //   fetcher(url, { arg: ["GET", {}] })
+  // );
+
+  const { data } = useSWR(
+    "https://api.singer.systems/deltas",
+    (url: string) => fetcher(url, { arg: ["GET", {}] }),
+    {
+      suspense: true,
+    }
   );
 
   useEffect(() => {

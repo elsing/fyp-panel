@@ -17,7 +17,7 @@ export default function DeleteFooter({
 
   return (
     <div className="flex w-1/2">
-      <DeleteModal role={role} role_key={data_key} />
+      <DeleteModal role={role} role_key={data_key} url={role} />
       <Button
         color="failure"
         onClick={() => setDeleteModalStatus(true)}

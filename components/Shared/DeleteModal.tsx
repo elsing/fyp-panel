@@ -9,9 +9,11 @@ import useAPI from "../Hooks/useAPI";
 export default function DeleteModal({
   role,
   role_key,
+  url,
 }: {
   role: string;
   role_key: number | undefined;
+  url: string;
 }) {
   const { trigger, isMutating, data, error } = useAPI(`${role}/${role_key}`);
   const { deleteModalStatus, setDeleteModalStatus } = useModalContext();
@@ -25,7 +27,7 @@ export default function DeleteModal({
     await trigger(["DELETE", {}]);
     setDeleteModalStatus(false);
     setConfigureModalStatus(false);
-    mutate(`https://api.singer.systems/${role}`);
+    mutate(`https://api.singer.systems/${url}`);
   }
 
   return (

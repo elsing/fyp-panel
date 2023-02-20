@@ -3,6 +3,7 @@ import useAPI from "@/components/Hooks/useAPI";
 import { Button } from "flowbite-react";
 import { useEffect } from "react";
 import { mutate } from "swr";
+import { flattenDiagnosticMessageText } from "typescript";
 
 export default function SaveFooter({
   data_key,
@@ -27,9 +28,11 @@ export default function SaveFooter({
       setConfigureModalStatus(false); // Close the modal
       mutate(`https://api.singer.systems/${role}`); // Refresh the list
     }
-    if (formData === undefined) return;
-    handleSave(formData); // Save the form data to the DB
-    setSaveData(false); // Allow form to saved again
+    if (data_key !== 0) {
+      if (formData === undefined) return;
+      handleSave(formData); // Save the form data to the DB
+      setSaveData(false); // Allow form to saved again
+    }
   }, [formData, trigger, setConfigureModalStatus, setSaveData, role]);
 
   return (

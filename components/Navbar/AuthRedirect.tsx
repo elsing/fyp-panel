@@ -16,7 +16,7 @@ export default function Redirect({ url }: { url: string }) {
             <p>You must be logged in, redirecting...!</p>
             <Spinner color="purple" aria-label="Purple spinner example" />
           </>
-        ) : (
+        ) : url === "/dashboard" && (
           <p>You are already logged in, redirecting...!</p>
         )}
       </div>
