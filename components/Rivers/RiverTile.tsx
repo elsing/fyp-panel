@@ -36,7 +36,7 @@ export default function RiverTile({ river }: { river: IRiver }) {
         </div>
       </div>
       <div className="w-full border-black border my-2"></div>
-      <RenderStreams />
+      <RenderStreams river={river.river_id} />
     </div>
   );
 }
