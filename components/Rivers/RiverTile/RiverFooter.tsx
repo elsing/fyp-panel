@@ -1,22 +1,34 @@
 import { useModalContext } from "@/components/Context/modal";
 import { Button } from "flowbite-react";
-import ViewRiver from "../../Streams/ViewModal/ViewSteam";
 
-export default function RiverFooter() {
-  const { setDeleteModalStatus } = useModalContext();
-  const { setConfigureModalStatus } = useModalContext();
-  const { setDataModalStatus } = useModalContext();
+export default function RiverFooter({ river_id }: { river_id: number }) {
+  const {
+    setDeleteModalStatus,
+    setConfigureModalStatus,
+    setDataModalStatus,
+    setObjectID,
+  } = useModalContext();
+
   return (
     <div>
       <div className="w-full border-black border my-2"></div>
       <div className="flex flex-row gap-2">
-        <Button className="w-1/3" onClick={() => setDataModalStatus(true)}>
+        <Button
+          className="w-1/3"
+          onClick={() => {
+            setObjectID(river_id);
+            setDataModalStatus(true);
+          }}
+        >
           View
         </Button>
         <Button
           className="w-1/3"
           color="success"
-          onClick={() => setConfigureModalStatus(true)}
+          onClick={() => {
+            setObjectID(river_id);
+            setConfigureModalStatus(true);
+          }}
         >
           Add
         </Button>

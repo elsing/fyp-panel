@@ -19,14 +19,14 @@ interface IStream {
   status: string;
 }
 
-export default function RiverBody({ river }: { river: number }) {
+export default function RiverBody({ river_id }: { river_id: number }) {
   const [servers, setServers] = useState(0);
   const [clients, setClients] = useState(0);
   let serverCount = 0;
   let clientCount = 0;
 
   const { data: streams } = useSWR(
-    `https://api.singer.systems/rivers/${river}/streams`,
+    `https://api.singer.systems/rivers/${river_id}/streams`,
     (url: string) => fetcher(url, { arg: ["GET", {}] }),
     {
       suspense: true,

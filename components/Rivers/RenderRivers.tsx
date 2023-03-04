@@ -31,9 +31,10 @@ export default function RenderRivers({ delta }: { delta: number }) {
         <div className="w-screen bg-gray-200 dark:bg-cyan-700 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
           {/* If rivers exist and the delta is not 0, map them */}
           {data?.code !== 404 && delta !== 0 ? (
+            (console.log("data:", data),
             data.json.map((river: IRiver) => {
               return <RiverTile river={river} key={river.river_id} />;
-            })
+            }))
           ) : (
             <div className="p-4 m-4 row-span-full w-screen flex justify-center">
               <Alert color="info" withBorderAccent={true} className="w-max">

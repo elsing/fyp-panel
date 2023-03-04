@@ -9,6 +9,8 @@ interface IModalContext {
   setConfigureModalStatus: Function;
   deleteModalStatus: boolean;
   setDeleteModalStatus: Function;
+  objectID: string | number;
+  setObjectID: Function;
 }
 
 const ModalContext = createContext<IModalContext>({
@@ -18,6 +20,8 @@ const ModalContext = createContext<IModalContext>({
   setConfigureModalStatus: () => {},
   deleteModalStatus: false,
   setDeleteModalStatus: () => {},
+  objectID: 0,
+  setObjectID: () => {},
 });
 
 export const useModalContext = () => useContext(ModalContext);
@@ -26,6 +30,7 @@ export default function StatusContext({ children }: PropsWithChildren) {
   const [dataModalStatus, setDataModalStatus] = useState(false);
   const [configureModalStatus, setConfigureModalStatus] = useState(false);
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
+  const [objectID, setObjectID] = useState<number | string>(0);
 
   return (
     <ModalContext.Provider
@@ -36,6 +41,8 @@ export default function StatusContext({ children }: PropsWithChildren) {
         setConfigureModalStatus,
         deleteModalStatus,
         setDeleteModalStatus,
+        objectID,
+        setObjectID,
       }}
     >
       {children}
