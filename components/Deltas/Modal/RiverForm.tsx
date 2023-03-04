@@ -42,7 +42,7 @@ export default function RiverForm({ delta }: { delta: number }) {
         <div className="flex flex-row gap-2">
           <TextInput
             type="text"
-            {...register("name", { required: true })}
+            {...register("name", { required: true, maxLength: 20 })}
             placeholder="Name for river."
             className="flex w-3/6"
           />
@@ -65,6 +65,14 @@ export default function RiverForm({ delta }: { delta: number }) {
           >
             Add
           </Button>
+        </div>
+        <div>
+          {errors.name?.type === "required" && (
+            <p role="alert">A name is required!</p>
+          )}
+          {errors.name?.type === "maxLength" && (
+            <p role="alert">The name must be 20 characters or less.</p>
+          )}
         </div>
       </form>
       <br />

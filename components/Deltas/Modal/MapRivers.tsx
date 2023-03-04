@@ -18,7 +18,7 @@ export default function MapRivers({
   delta: number;
   update: boolean;
 }) {
-  const { trigger, isMutating, data, error } = useAPI(`deltarivers/${delta}`);
+  const { trigger, isMutating, data, error } = useAPI(`delta/${delta}/rivers`);
   const { configureModalStatus } = useModalContext();
 
   useEffect(() => {

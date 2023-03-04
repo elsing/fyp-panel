@@ -24,7 +24,11 @@ export default function FlowTile({
       <p className="text-center font-bold">{flow.name}</p>
       <p>
         Status:{" "}
-        {flow.status === "up" ? "✅" : flow.status === "down" ? "❌" : "❓"}
+        {flow.status === "online"
+          ? "✅"
+          : flow.status === "offline"
+          ? "❌"
+          : "❓"}
       </p>
       <p className="flex-wrap h-fit">Description {flow.description}</p>
       <p>Monitored: {flow.monitor ? "✅" : "❌"}</p>

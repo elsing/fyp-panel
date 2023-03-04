@@ -54,13 +54,13 @@ export default function DeltaForm({
         <Label htmlFor="name">Name</Label>
         <TextInput
           type="text"
-          {...register("name", { required: true, maxLength: 50 })}
+          {...register("name", { required: true, maxLength: 20 })}
         />
         {errors.name?.type === "required" && (
           <p role="alert">A name is required!</p>
         )}
         {errors.name?.type === "maxLength" && (
-          <p>The name must be 20 characters or less.</p>
+          <p role="alert">The name must be 20 characters or less.</p>
         )}
       </div>
     </form>

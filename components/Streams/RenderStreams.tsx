@@ -1,3 +1,5 @@
+"use client";
+
 import { Alert } from "flowbite-react";
 import useSWR from "swr";
 import { fetcher } from "../Fetcher";
@@ -7,11 +9,15 @@ interface IStream {
   stream_id: number;
   river_id: number;
   flow_id: number;
+  name: string;
   role: string;
   port: number;
   config: string;
+  public_key: string;
+  endpoint: string;
   tunnel: string;
   error: string;
+  status: string;
 }
 
 export default function RenderStreams({ river }: { river: number }) {
@@ -35,9 +41,7 @@ export default function RenderStreams({ river }: { river: number }) {
           ) : (
             <div className="p-4 m-4 row-span-full max-w-full flex justify-center">
               <Alert color="info" withBorderAccent={true} className="w-max">
-                {river !== 0
-                  ? "No Rivers in this Deltas, please add them in the Deltas page."
-                  : "Please select a Delta."}
+                {river !== 0 && "No Streams in this River."}
               </Alert>
             </div>
           )}

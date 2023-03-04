@@ -1,6 +1,6 @@
 "use client";
 
-import RiverTile from "./RiverTile";
+import RiverTile from "./RiverTile/RiverTile";
 import { useState } from "react";
 import { Alert } from "flowbite-react";
 import { fetcher } from "../Fetcher";
@@ -28,7 +28,7 @@ export default function RenderRivers({ delta }: { delta: number }) {
   return (
     <div>
       {data?.success || data?.code === 404 ? (
-        <div className="w-screen bg-gray-200 dark:bg-cyan-700 flex flex-col">
+        <div className="w-screen bg-gray-200 dark:bg-cyan-700 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
           {/* If rivers exist and the delta is not 0, map them */}
           {data?.code !== 404 && delta !== 0 ? (
             data.json.map((river: IRiver) => {

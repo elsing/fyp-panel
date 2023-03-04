@@ -84,7 +84,7 @@ export default function FlowForm({
 
         <div className="flex items-center gap-2">
           <Checkbox {...register("locked")} />
-          <Label htmlFor="locked">Locked? (Make unavaliable to rivers)</Label>
+          <Label htmlFor="locked">Locked? (Make unavaliable to Streams)</Label>
         </div>
 
         <div>
