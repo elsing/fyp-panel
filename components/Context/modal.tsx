@@ -9,7 +9,7 @@ interface IModalContext {
   setConfigureModalStatus: Function;
   deleteModalStatus: boolean;
   setDeleteModalStatus: Function;
-  objectID: string | number;
+  objectID: number;
   setObjectID: Function;
 }
 
@@ -30,7 +30,7 @@ export default function StatusContext({ children }: PropsWithChildren) {
   const [dataModalStatus, setDataModalStatus] = useState(false);
   const [configureModalStatus, setConfigureModalStatus] = useState(false);
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
-  const [objectID, setObjectID] = useState<number | string>(0);
+  const [objectID, setObjectID] = useState<number>(0);
 
   return (
     <ModalContext.Provider

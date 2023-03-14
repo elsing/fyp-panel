@@ -5,6 +5,10 @@ import { useState } from "react";
 import { Alert } from "flowbite-react";
 import { fetcher } from "../Fetcher";
 import useSWR from "swr";
+import ViewRiver from "./ViewModal/ViewRiver";
+import AddStream from "../Streams/AddModal/AddStream";
+import DeleteModal from "../Shared/DeleteModal";
+import { useModalContext } from "../Context/modal";
 
 interface IRiver {
   river_id: number;
@@ -15,6 +19,7 @@ interface IRiver {
 
 export default function RenderRivers({ delta }: { delta: number }) {
   const [key, setKey] = useState<number>(0);
+  const { objectID } = useModalContext()
 
   // Collect all rivers from the delta
   const { data } = useSWR(
@@ -31,7 +36,7 @@ export default function RenderRivers({ delta }: { delta: number }) {
         <div className="w-screen bg-gray-200 dark:bg-cyan-700 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
           {/* If rivers exist and the delta is not 0, map them */}
           {data?.code !== 404 && delta !== 0 ? (
-            (console.log("data:", data),
+            (
             data.json.map((river: IRiver) => {
               return <RiverTile river={river} key={river.river_id} />;
             }))

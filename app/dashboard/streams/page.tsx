@@ -3,6 +3,7 @@
 import { useState } from "react";
 import RenderRivers from "@/components/Rivers/RenderRivers";
 import DeltaSelector from "@/components/Rivers/DeltaSelector";
+import { ToastContainer } from "react-toastify";
 
 export default function Flows() {
   const [delta, setDelta] = useState<number>(0);

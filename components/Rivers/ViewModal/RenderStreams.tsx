@@ -20,9 +20,15 @@ interface IStream {
   status: string;
 }
 
-export default function RenderStreams({ streams }: { streams: IStream[] }) {
-  const { configureModalStatus, setConfigureModalStatus, setObjectID } =
-    useModalContext();
+export default function RenderStreams({
+  streams,
+  setStatus,
+}: {
+  streams: IStream[];
+  setStatus: Function;
+}) {
+  const { setObjectID } = useModalContext();
+  const [configureModalStatus, setConfigureModalStatus] = useState(false);
 
   function toggleEditStream(stream_id: number | string) {
     console.log("edit stream clicked");
@@ -32,13 +38,17 @@ export default function RenderStreams({ streams }: { streams: IStream[] }) {
 
   return (
     <div>
+      <AddStream
+        status={configureModalStatus}
+        setStatus={setConfigureModalStatus}
+        mode={"edit"}
+      />
       <Table className="dark:text-white">
         <Table.Head className="dark:bg-gray-600">
           <Table.HeadCell>Name</Table.HeadCell>
           <Table.HeadCell>Role</Table.HeadCell>
           <Table.HeadCell>Port</Table.HeadCell>
           <Table.HeadCell>Endpoint</Table.HeadCell>
-          <Table.HeadCell>Public Key</Table.HeadCell>
           <Table.HeadCell>Tunnel</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell></Table.HeadCell>
@@ -50,7 +60,6 @@ export default function RenderStreams({ streams }: { streams: IStream[] }) {
               <Table.Cell>{stream.role}</Table.Cell>
               <Table.Cell>{stream.port}</Table.Cell>
               <Table.Cell>{stream.endpoint}</Table.Cell>
-              <Table.Cell>{stream.public_key}</Table.Cell>
               <Table.Cell>{stream.tunnel}</Table.Cell>
 
               <Table.Cell>
@@ -67,10 +76,11 @@ export default function RenderStreams({ streams }: { streams: IStream[] }) {
                   className="hover:underline text-blue-400"
                   key={"editbtn" + stream.stream_id}
                   onClick={() =>
-                    toggleEditStream(`${stream.river_id}.${stream.stream_id}`)
+                    // toggleEditStream(`${stream.river_id}.${stream.stream_id}`)
+                    toggleEditStream(stream.stream_id)
                   }
                 >
-                  Edit
+                  More / Edit
                 </button>
               </Table.Cell>
             </Table.Row>

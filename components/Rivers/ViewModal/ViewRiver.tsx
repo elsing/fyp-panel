@@ -1,14 +1,20 @@
 "use client";
 
-import { useModalContext } from "@/components/Context/modal";
+import StatusContext, { useModalContext } from "@/components/Context/modal";
 import useAPI from "@/components/Hooks/useAPI";
-import AddStream from "@/components/Streams/AddModal/AddStream";
-import { Modal } from "flowbite-react";
+import { Alert, Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 import RenderStreams from "./RenderStreams";
+import { toast } from "react-toastify";
 
-export default function ViewRiver({ river_id }: { river_id: number }) {
-  const { dataModalStatus, setDataModalStatus, objectID } = useModalContext();
+export default function ViewRiver({
+  status,
+  setStatus,
+}: {
+  status: boolean;
+  setStatus: Function;
+}) {
+  const { setObjectID, objectID } = useModalContext();
 
   const {
     trigger,
@@ -17,31 +23,38 @@ export default function ViewRiver({ river_id }: { river_id: number }) {
     error,
   } = useAPI(`river/${objectID}/streams`);
 
+  // Close the modal
+  function onClose() {
+    setStatus(false);
+    setObjectID(0);
+  }
+
+  // Handle on open
   useEffect(() => {
-    if (dataModalStatus) {
+    if (status) {
       trigger(["GET", {}]);
     }
-  }, [dataModalStatus, trigger]);
+  }, [status]);
 
-  function onClose() {
-    setDataModalStatus(false);
-  }
+  // Handle data arrival
+  useEffect(() => {
+    if (streams?.code !== 200) {
+      toast.error(streams?.json.message);
+      onClose();
+    }
+  }, [streams]);
 
   return (
     <div>
-      <Modal show={dataModalStatus} onClose={onClose} size="7xl">
-        <Modal.Header>View Streams</Modal.Header>
-        <Modal.Body>
-          {streams?.code === 200 ? (
-            <RenderStreams streams={streams.json} />
-          ) : (
-            <p>There was an error loading the streams</p>
-          )}
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <p>Footer</p>
-        </Modal.Footer> */}
-      </Modal>
+      {streams?.success && (
+        <Modal show={status} onClose={onClose} size="5xl">
+          <Modal.Header>View Streams</Modal.Header>
+          <Modal.Body>
+            {/* Got prop drilling here, but it's fine for now I guess */}
+            <RenderStreams streams={streams.json} setStatus={setStatus} />
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 }
