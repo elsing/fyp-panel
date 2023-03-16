@@ -3,35 +3,44 @@
 import { useModalContext } from "@/components/Context/modal";
 import { Modal, Button, Label } from "flowbite-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { mutate } from "swr";
 import useAPI from "../Hooks/useAPI";
 
 export default function DeleteModal({
+  status,
+  setStatus,
   role,
   role_key,
   url,
 }: {
+  status: boolean;
+  setStatus: Function;
   role: string;
   role_key: number | undefined;
   url: string;
 }) {
   const { trigger, isMutating, data, error } = useAPI(`${role}/${role_key}`);
-  const { deleteModalStatus, setDeleteModalStatus } = useModalContext();
   const { setConfigureModalStatus } = useModalContext();
 
   function onClose() {
-    setDeleteModalStatus(false);
+    setStatus(false);
   }
 
   async function handleDelete() {
     await trigger(["DELETE", {}]);
-    setDeleteModalStatus(false);
+    setStatus(false);
     setConfigureModalStatus(false);
     mutate(`https://api.singer.systems/${url}`);
+    if (data?.success) {
+      toast.success(`${data.json.message}`);
+    } else {
+      toast.error(`${data?.json.message}`);
+    }
   }
 
   return (
-    <Modal show={deleteModalStatus} onClose={onClose}>
+    <Modal show={status} onClose={onClose}>
       <Modal.Body>
         <div className="flex flex-col items-center">
           <svg
@@ -54,8 +63,10 @@ export default function DeleteModal({
               ? "Are you sure you want to delete this Delta (including all Rivers and Streams)?"
               : role === "rivers"
               ? "Are you sure you want to delete this River (including all Streams)?"
-              : role === "flows" &&
-                "Are you sure you want to delete this Flow?"}
+              : role === "flows"
+              ? "Are you sure you want to delete this Flow?"
+              : role === "streams" &&
+                "Are you sure you want to delete this Stream?"}
           </Label>
           <Label className="text-xl italic">
             This could cause a lot of problems.
@@ -63,15 +74,15 @@ export default function DeleteModal({
         </div>
         <br />
         <div className="flex justify-center gap-4">
-          <Button onClick={onClose} color="purple">
-            No, close one
-          </Button>
           <Button
             onClick={() => handleDelete()}
             color="failure"
             className="font-bold italic"
           >
             Yes, goodbye
+          </Button>
+          <Button onClick={onClose} color="purple">
+            No, close one
           </Button>
         </div>
       </Modal.Body>

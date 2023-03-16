@@ -14,22 +14,29 @@ interface IRiver {
 
 export default function RiverFooter({ river }: { river: IRiver }) {
   const [dataModalStatus, setDataModalStatus] = useState(false);
-  const [configureModalStatus, setConfigureModalStatus] = useState(false);
-
-  const { setDeleteModalStatus, setObjectID } = useModalContext();
+  // const [configureModalStatus, setConfigureModalStatus] = useState(false);
+  const { configureModalStatus, setConfigureModalStatus, setObjectID } =
+    useModalContext();
+  // const { setObjectID } = useModalContext();
+  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   return (
     <div>
       {/* Initate Modals */}
       <div>
-        <ViewRiver status={dataModalStatus} setStatus={setDataModalStatus} />
-        <AddStream
+        <ViewRiver
           status={configureModalStatus}
           setStatus={setConfigureModalStatus}
+        />
+        <AddStream
+          status={dataModalStatus}
+          setStatus={setDataModalStatus}
           mode={"add"}
           river_id={river.river_id}
         />
         <DeleteModal
+          status={deleteModalStatus}
+          setStatus={setDeleteModalStatus}
           role="rivers"
           role_key={river.river_id}
           url={`deltas/${river.delta_id}/rivers`}
@@ -41,7 +48,7 @@ export default function RiverFooter({ river }: { river: IRiver }) {
           className="w-1/3"
           onClick={() => {
             setObjectID(river.river_id);
-            setDataModalStatus(true);
+            setConfigureModalStatus(true);
           }}
         >
           View
@@ -51,7 +58,7 @@ export default function RiverFooter({ river }: { river: IRiver }) {
           color="success"
           onClick={() => {
             setObjectID(river.river_id);
-            setConfigureModalStatus(true);
+            setDataModalStatus(true);
           }}
         >
           Add

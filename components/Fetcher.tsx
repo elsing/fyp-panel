@@ -30,14 +30,14 @@ export async function fetcher(
         body: JSON.stringify(input),
         signal: signal,
       });
-      return await handleResponse(response);
+      return handleResponse(response);
     } else if (method === "GET" || method === "DELETE") {
       const response = await fetch(url, {
         method: method,
         credentials: "include",
         signal: signal,
       });
-      return await handleResponse(response);
+      return handleResponse(response);
     }
     //   Convert to JSON
   } catch (error) {

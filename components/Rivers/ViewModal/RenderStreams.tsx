@@ -1,6 +1,7 @@
 "use client";
 
 import { useModalContext } from "@/components/Context/modal";
+import DeleteModal from "@/components/Shared/DeleteModal";
 import AddStream from "@/components/Streams/AddModal/AddStream";
 import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -27,13 +28,21 @@ export default function RenderStreams({
   streams: IStream[];
   setStatus: Function;
 }) {
-  const { setObjectID } = useModalContext();
+  const { objectID, setObjectID } = useModalContext();
   const [configureModalStatus, setConfigureModalStatus] = useState(false);
+  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   function toggleEditStream(stream_id: number | string) {
     console.log("edit stream clicked");
     setObjectID(stream_id);
     setConfigureModalStatus(true);
+  }
+
+  function deleteStream(stream_id: number) {
+    console.log("delete stream clicked");
+    setObjectID(stream_id);
+    setDeleteModalStatus(true);
+    setConfigureModalStatus(false);
   }
 
   return (
@@ -42,6 +51,14 @@ export default function RenderStreams({
         status={configureModalStatus}
         setStatus={setConfigureModalStatus}
         mode={"edit"}
+        river_id={streams[0].river_id}
+      />
+      <DeleteModal
+        status={deleteModalStatus}
+        setStatus={setDeleteModalStatus}
+        role="streams"
+        role_key={objectID}
+        url={"rivers"}
       />
       <Table className="dark:text-white">
         <Table.Head className="dark:bg-gray-600">
@@ -51,6 +68,7 @@ export default function RenderStreams({
           <Table.HeadCell>Endpoint</Table.HeadCell>
           <Table.HeadCell>Tunnel</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell></Table.HeadCell>
           <Table.HeadCell></Table.HeadCell>
         </Table.Head>
         <Table.Body>
@@ -81,6 +99,18 @@ export default function RenderStreams({
                   }
                 >
                   More / Edit
+                </button>
+              </Table.Cell>
+              <Table.Cell>
+                <button
+                  className="hover:underline text-blue-400"
+                  key={"deletebtn" + stream.stream_id}
+                  onClick={() =>
+                    // toggleEditStream(`${stream.river_id}.${stream.stream_id}`)
+                    deleteStream(stream.stream_id)
+                  }
+                >
+                  Delete
                 </button>
               </Table.Cell>
             </Table.Row>
