@@ -1,3 +1,5 @@
+"use client";
+
 import { useModalContext } from "@/components/Context/modal";
 import DeleteModal from "@/components/Shared/DeleteModal";
 import AddStream from "@/components/Streams/AddModal/AddStream";
@@ -14,20 +16,20 @@ interface IRiver {
 
 export default function RiverFooter({ river }: { river: IRiver }) {
   const [dataModalStatus, setDataModalStatus] = useState(false);
-  // const [configureModalStatus, setConfigureModalStatus] = useState(false);
-  const { configureModalStatus, setConfigureModalStatus, setObjectID } =
-    useModalContext();
+  const [viewModalStatus, setViewModalStatus] = useState(false);
+  const { configureModalStatus, setObjectID } = useModalContext();
   // const { setObjectID } = useModalContext();
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
+
+  useEffect(() => {
+    setViewModalStatus(false);
+  }, [configureModalStatus]);
 
   return (
     <div>
       {/* Initate Modals */}
       <div>
-        <ViewRiver
-          status={configureModalStatus}
-          setStatus={setConfigureModalStatus}
-        />
+        <ViewRiver status={viewModalStatus} setStatus={setViewModalStatus} />
         <AddStream
           status={dataModalStatus}
           setStatus={setDataModalStatus}
@@ -48,7 +50,7 @@ export default function RiverFooter({ river }: { river: IRiver }) {
           className="w-1/3"
           onClick={() => {
             setObjectID(river.river_id);
-            setConfigureModalStatus(true);
+            setViewModalStatus(true);
           }}
         >
           View

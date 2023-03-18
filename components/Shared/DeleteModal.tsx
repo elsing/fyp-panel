@@ -2,7 +2,8 @@
 
 import { useModalContext } from "@/components/Context/modal";
 import { Modal, Button, Label } from "flowbite-react";
-import { useState } from "react";
+import { config } from "process";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import useAPI from "../Hooks/useAPI";
@@ -21,7 +22,7 @@ export default function DeleteModal({
   url: string;
 }) {
   const { trigger, isMutating, data, error } = useAPI(`${role}/${role_key}`);
-  const { setConfigureModalStatus } = useModalContext();
+  const { configureModalStatus, setConfigureModalStatus } = useModalContext();
 
   function onClose() {
     setStatus(false);
@@ -29,15 +30,20 @@ export default function DeleteModal({
 
   async function handleDelete() {
     await trigger(["DELETE", {}]);
-    setStatus(false);
-    setConfigureModalStatus(false);
-    mutate(`https://api.singer.systems/${url}`);
-    if (data?.success) {
-      toast.success(`${data.json.message}`);
-    } else {
-      toast.error(`${data?.json.message}`);
-    }
   }
+
+  useEffect(() => {
+    if (status) {
+      if (data?.success) {
+        setStatus(false);
+        setConfigureModalStatus(!configureModalStatus);
+        mutate(`https://api.singer.systems/${url}`);
+        toast.success(`${data.json.message}`);
+      } else {
+        toast.error(`${data?.json.message}`);
+      }
+    }
+  }, [data]);
 
   return (
     <Modal show={status} onClose={onClose}>

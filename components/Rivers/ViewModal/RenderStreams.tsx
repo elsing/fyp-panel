@@ -93,6 +93,7 @@ export default function RenderStreams({
                 <button
                   className="hover:underline text-blue-400"
                   key={"editbtn" + stream.stream_id}
+                  disabled={stream.status == "pendingDelete" ? true : false}
                   onClick={() =>
                     // toggleEditStream(`${stream.river_id}.${stream.stream_id}`)
                     toggleEditStream(stream.stream_id)

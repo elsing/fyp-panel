@@ -28,6 +28,8 @@ export default function AddStream({
 }) {
   const { objectID } = useModalContext();
   const [flowID, setFlowID] = useState<number | string>("");
+  const [flowName, setFlowName] = useState<string>("");
+  const [updating, setUpdating] = useState<boolean>(false);
 
   // Register the form
   const {
@@ -53,43 +55,54 @@ export default function AddStream({
     error: errorFlow,
   } = useAPI(`flow/${flowID}`);
 
+  // Handle updating or saving
+  useEffect(() => {
+    if (updating && status) {
+      if (stream?.success) {
+        toast.success(`${stream?.json.message}`);
+        setUpdating(false);
+        onClose();
+      } else if (mode == "edit") {
+        toast.error(`Failed to update Stream: ${stream?.json.message}`);
+      } else if (mode == "add") {
+        toast.error(`Failed to add stream: ${stream?.json.message}`);
+      }
+      }
+  }, [stream]);
+
   // If exists, load the data, otherwise, load the form empty
   useEffect(() => {
-    console.log("stream", stream);
     if (status) {
       if (mode == "edit") {
-        if (stream?.success) {
-          console.log("test");
+        if (stream?.success && !updating) {
           reset(stream?.json);
+          console.log("stream", stream);
+          console.log("flow id to use", stream?.json.flow_id);
           setFlowID(stream?.json.flow_id);
-          triggerFlow(["GET", {}]);
-        } else {
-          toast.error("Failed to load Stream details.");
-        }
-      }
-      if (mode == "add") {
-        if (stream?.success) {
-          toast.success(`Successfully added stream`);
-          onClose();
-        } else {
-          toast.error(`Failed to add stream: ${stream?.json.message}`);
-        }
       }
     }
+  }
   }, [stream, reset]);
 
-  // When stream is loaded, set the flow name (replaces ID)
+  // When flow is loaded, set the flow name (replaces ID)
+  useEffect(() => {
+    console.log("flow id", flowID);
+    triggerFlow(["GET", {}]);
+  }, [flowID, setFlowName]);
+
+  // 
   useEffect(() => {
     if (flow?.code === 200) {
-      setValue("flow_id", flow?.json.name);
+      console.log("flow", flow);
+      setFlowName(flow?.json.name);
     }
-  }, [flow, setValue]);
+  }, [flow, setFlowName]);
 
   // Handle on open
   useEffect(() => {
-    if (status && mode === "edit") {
+    if (status && mode == "edit") {
       trigger(["GET", {}]);
-    } else if (status && mode === "add") {
+    } else if (status && mode == "add") {
       setFlowID("");
       triggerFlow(["GET", {}]);
     }
@@ -98,18 +111,20 @@ export default function AddStream({
   // Handle on close
   function onClose() {
     // setStatus(false);
-    setStatus(false);
     reset();
+    setStatus(false);
   }
 
   // Handle submit
   async function handleClick() {
     setValue("river_id", river_id);
+    setUpdating(true);
     console.log("mode", mode);
     console.log("values", getValues());
     if (mode == "add") {
       await trigger(["POST", getValues()]);
     } else if (mode == "edit") {
+      console.log("submitted");
       await trigger(["PATCH", getValues()]);
     }
   }
@@ -121,11 +136,9 @@ export default function AddStream({
           {mode == "add" ? "Add Stream" : "View / Edit Stream"}
         </Modal.Header>
         <Modal.Body>
-          {mode == "add" && (
             <h1 className="dark:text-white">
-              Please fill in the required boxes.
+              {mode == "add" ? "Please fill in the required boxes." : stream?.json.role == "server" && "Servers cannot currently be edited. Please delete and re-add."}
             </h1>
-          )}
           <form className="flex flex-col gap-2">
             <div>
               <Label htmlFor="name">Name</Label>
@@ -144,16 +157,19 @@ export default function AddStream({
               </div>
             )}
             <div>
-              <Label htmlFor="Flow">Flow</Label>
+              <Label htmlFor="Flow">Flow (where the VPN actually runs)</Label>
               {mode == "add" ? (
-                <Select>
+                <Select
+                  {...register("flow_id", {
+                    required: true,
+                  })}
+                >
                   {flow?.json?.map((flow: any) => {
                     return (
                       <option
                         value={flow.flow_id}
                         key={flow.flow_id}
                         disabled={flow.locked}
-                        {...register("flow_id", { required: true })}
                       >
                         {flow.name}
                       </option>
@@ -162,9 +178,10 @@ export default function AddStream({
                 </Select>
               ) : (
                 <TextInput
+                  placeholder={flowName}
                   type="text"
-                  {...register("flow_id", { required: true })}
                   readOnly={true}
+                  // placeholder={flowName}
                 />
               )}
             </div>
@@ -233,6 +250,7 @@ export default function AddStream({
             className="w-full"
             color="success"
             onClick={() => handleClick()}
+            disabled={stream?.json.role == "server" ? true : false}
           >
             {mode == "add" ? "Add Stream" : "Save Changes"}
           </Button>

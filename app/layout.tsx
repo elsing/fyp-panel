@@ -14,8 +14,10 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className="dark:bg-gray-800">{children}</body>
-      <Toast />
+      <body className="dark:bg-gray-800">
+        {children}
+        <Toast />
+      </body>
     </html>
   );
 }
