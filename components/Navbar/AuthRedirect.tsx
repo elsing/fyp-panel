@@ -1,10 +1,16 @@
 "use client";
 
 import { Spinner } from "flowbite-react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Redirect({ url }: { url: string }) {
-  redirect(url);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(url);
+    router.push(url);
+  }, [router, url]);
 
   return (
     <main>
@@ -16,7 +22,10 @@ export default function Redirect({ url }: { url: string }) {
           </>
         ) : (
           url === "/dashboard" && (
-            <p>You are already logged in, redirecting...!</p>
+            <>
+              <p>You are already logged in, redirecting...!</p>
+              <Spinner color="purple" aria-label="Purple spinner example" />
+            </>
           )
         )}
       </div>

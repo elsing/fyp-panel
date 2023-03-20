@@ -67,8 +67,8 @@ export default function AddStream({
       } else if (mode == "add") {
         toast.error(`Failed to add stream: ${stream?.json.message}`);
       }
-      }
-  }, [stream]);
+    }
+  }, [stream, updating, status, mode, onClose, setUpdating]);
 
   // If exists, load the data, otherwise, load the form empty
   useEffect(() => {
@@ -79,18 +79,18 @@ export default function AddStream({
           console.log("stream", stream);
           console.log("flow id to use", stream?.json.flow_id);
           setFlowID(stream?.json.flow_id);
+        }
       }
     }
-  }
-  }, [stream, reset]);
+  }, [stream, reset, status, mode, updating, setFlowID]);
 
   // When flow is loaded, set the flow name (replaces ID)
   useEffect(() => {
     console.log("flow id", flowID);
     triggerFlow(["GET", {}]);
-  }, [flowID, setFlowName]);
+  }, [flowID, setFlowName, triggerFlow]);
 
-  // 
+  //
   useEffect(() => {
     if (flow?.code === 200) {
       console.log("flow", flow);
@@ -106,7 +106,7 @@ export default function AddStream({
       setFlowID("");
       triggerFlow(["GET", {}]);
     }
-  }, [status]);
+  }, [status, trigger, mode, triggerFlow]);
 
   // Handle on close
   function onClose() {
@@ -136,9 +136,12 @@ export default function AddStream({
           {mode == "add" ? "Add Stream" : "View / Edit Stream"}
         </Modal.Header>
         <Modal.Body>
-            <h1 className="dark:text-white">
-              {mode == "add" ? "Please fill in the required boxes." : stream?.json.role == "server" && "Servers cannot currently be edited. Please delete and re-add."}
-            </h1>
+          <h1 className="dark:text-white">
+            {mode == "add"
+              ? "Please fill in the required boxes."
+              : stream?.json.role == "server" &&
+                "Servers cannot currently be edited. Please delete and re-add."}
+          </h1>
           <form className="flex flex-col gap-2">
             <div>
               <Label htmlFor="name">Name</Label>

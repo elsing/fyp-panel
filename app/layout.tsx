@@ -1,4 +1,5 @@
 import Toast from "@/components/Shared/Toast";
+import { Provider } from "@/components/ThemeProvider";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 
@@ -15,8 +16,12 @@ export default function RootLayout({
       */}
       <head />
       <body className="dark:bg-gray-800">
-        {children}
+        <main>
+          <Provider>
+          {children}
+          </Provider>
         <Toast />
+        </main>
       </body>
     </html>
   );
