@@ -58,7 +58,7 @@ export default function RenderStreams({
         setStatus={setDeleteModalStatus}
         role="streams"
         role_key={objectID}
-        url={"rivers"}
+        url={`rivers/${streams[0].river_id}/streams`}
       />
       <Table className="dark:text-white">
         <Table.Head className="dark:bg-gray-600">

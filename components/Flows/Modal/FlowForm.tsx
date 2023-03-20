@@ -7,17 +7,15 @@ import { useForm } from "react-hook-form";
 import useAPI from "../../Hooks/useAPI";
 
 export default function FlowForm({
-  flow,
   saveData,
   setFormData,
 }: {
-  flow: number;
   saveData: boolean;
   setFormData: Function;
 }) {
   // Set up vars
-  const { trigger, isMutating, data, error } = useAPI(`flows/${flow}`);
-  const { configureModalStatus } = useModalContext();
+  const { configureModalStatus, objectID, setObjectID } = useModalContext();
+  const { trigger, isMutating, data, error } = useAPI(`flows/${objectID}`);
   // Register the form
   const {
     register,

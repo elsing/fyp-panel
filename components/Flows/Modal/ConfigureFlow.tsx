@@ -8,10 +8,10 @@ import FlowForm from "./FlowForm";
 import SaveFooter from "@/components/Shared/Modal/SaveFooter";
 import DeleteFooter from "../../Shared/Modal/DeleteFooter";
 
-export default function ConfigureFlow({ flow }: { flow: number }) {
+export default function ConfigureFlow() {
   const [formData, setFormData] = useState<object>({});
   const [saveData, setSaveData] = useState<boolean>(false);
-  const { configureModalStatus, setConfigureModalStatus } = useModalContext();
+  const { configureModalStatus, setConfigureModalStatus, objectID } = useModalContext();
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   // Close the modal
@@ -21,30 +21,29 @@ export default function ConfigureFlow({ flow }: { flow: number }) {
 
   return (
     <div>
-      <DeleteModal
+      {/* <DeleteModal
         status={deleteModalStatus}
         setStatus={setDeleteModalStatus}
         role="flows"
         role_key={flow}
         url="flows"
-      />
+      /> */}
 
       <Modal show={configureModalStatus} onClose={onClose}>
         <Modal.Header>Modify a Flow</Modal.Header>
         <Modal.Body>
           <Suspense fallback={<p>testing...!</p>}>
             <FlowForm
-              flow={flow}
               saveData={saveData}
               setFormData={setFormData}
             />
           </Suspense>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter data_key={flow} role="flows" />
+          <DeleteFooter data_key={objectID} role="flows" />
           <SaveFooter
-            data_key={flow}
             role="flows"
+            saveData={saveData}
             setSaveData={setSaveData}
             formData={formData}
           />

@@ -1,13 +1,13 @@
 export default function CreateButton({
-  handleClick,
+  setStatus,
 }: {
-  handleClick: Function;
+  setStatus: Function;
 }) {
   return (
     <div className="bg-gray-500 border-black border rounded-lg m-4 p-4 h-40 shadow-xl flex flex-col hover:bg-gray-400">
       <button
         onClick={() => {
-          handleClick(0);
+          setStatus(true);
         }}
         className="flex flex-col justify-center h-screen items-center"
       >

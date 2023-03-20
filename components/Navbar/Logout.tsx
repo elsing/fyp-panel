@@ -24,7 +24,7 @@ export default function Logout() {
       setlogoutSuccess(true);
       return;
     }
-  }, [data]);
+  }, [data, router]);
 
   useEffect(() => {
     if (logoutWait) {
@@ -40,7 +40,7 @@ export default function Logout() {
         toast.error("Logout Failed!");
       }
     }
-  }, [logoutWait]);
+  }, [logoutWait, trigger, logoutSuccess]);
 
   function handleClick() {
     if (!logoutWait) {

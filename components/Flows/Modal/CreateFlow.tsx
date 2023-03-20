@@ -8,11 +8,13 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "../../Fetcher";
 import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
+import { toast } from "react-toastify";
+import useAPI from "@/components/Hooks/useAPI";
 
 export default function CreateModal({
   status,
@@ -30,10 +32,15 @@ export default function CreateModal({
     formState: { errors },
   } = useForm();
 
-  const { trigger, isMutating, data, error } = useSWRMutation(
-    "https://api.singer.systems/flows/",
-    fetcher
-  );
+  const { trigger, isMutating, data, error } = useAPI("flows")
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success("Flow created successfully!");
+    } else {
+      toast.error("Something went wrong!");
+    }
+  }, [data]);
 
   function onClose() {
     setStatus(false);

@@ -6,34 +6,35 @@ import { mutate } from "swr";
 import { flattenDiagnosticMessageText } from "typescript";
 
 export default function SaveFooter({
-  data_key,
   role,
+  saveData,
   setSaveData,
   formData,
 }: {
-  data_key: number;
   role: string;
+  saveData: boolean;
   setSaveData: Function;
   formData: object | undefined;
 }) {
   // Handle modal save button
 
-  const { trigger, isMutating, data, error } = useAPI(`${role}/${data_key}`);
-  const { setConfigureModalStatus } = useModalContext();
+  const { setConfigureModalStatus, objectID } = useModalContext();
+  const { trigger, isMutating, data, error } = useAPI(`${role}/${objectID}`);
 
   // When change in saveData, save the form data to the DB
   useEffect(() => {
+    if (!saveData) return;
     async function handleSave(formResult: object) {
       await trigger(["PATCH", formResult]);
       setConfigureModalStatus(false); // Close the modal
       mutate(`https://api.singer.systems/${role}`); // Refresh the list
     }
-    if (data_key !== 0) {
+    if (objectID !== 0) {
       if (formData === undefined) return;
       handleSave(formData); // Save the form data to the DB
       setSaveData(false); // Allow form to saved again
     }
-  }, [formData, trigger, setConfigureModalStatus, setSaveData, role]);
+  }, [formData, trigger, setConfigureModalStatus, setSaveData, role, objectID]);
 
   return (
     <Button

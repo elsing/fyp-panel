@@ -17,10 +17,8 @@ export default function RootLayout({
       <head />
       <body className="dark:bg-gray-800">
         <main>
-          <Provider>
-          {children}
-          </Provider>
-        <Toast />
+          <Provider>{children}</Provider>
+          <Toast />
         </main>
       </body>
     </html>

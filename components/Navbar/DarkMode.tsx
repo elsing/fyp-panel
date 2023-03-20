@@ -11,13 +11,11 @@ export default function Darkmode() {
   const [mode, setMode] = useState<boolean>(false);
 
   return (
-    <div className="w-fit">
-      <Expand
-        duration={750}
-        toggled={theme === "dark"}
-        toggle={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="text-2xl"
-      />
-    </div>
+    <Expand
+      duration={750}
+      toggled={theme === "dark"}
+      toggle={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="text-2xl"
+    />
   );
 }

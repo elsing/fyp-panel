@@ -43,6 +43,9 @@ export default function DeleteModal({
         toast.error(`${data?.json.message}`);
       }
     }
+
+    // Don't want to add status because only want to load effect once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

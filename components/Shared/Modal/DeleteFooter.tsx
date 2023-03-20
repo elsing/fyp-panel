@@ -13,11 +13,18 @@ export default function DeleteFooter({
   role: string;
 }) {
   // Handle delete button
-  const { setDeleteModalStatus } = useModalContext();
+  // const { setDeleteModalStatus } = useModalContext();
+  const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false);
 
   return (
     <div className="flex w-1/2">
-      <DeleteModal role={role} role_key={data_key} url={role} />
+      <DeleteModal
+        role="flows"
+        role_key={data_key}
+        url="flows"
+        status={deleteModalStatus}
+        setStatus={setDeleteModalStatus}
+      />
       <Button
         color="failure"
         onClick={() => setDeleteModalStatus(true)}

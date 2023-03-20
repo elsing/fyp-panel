@@ -1,9 +1,9 @@
 "use client";
 
-import StatusContext, { useModalContext } from "@/components/Context/modal";
+import { useModalContext } from "@/components/Context/modal";
 import useAPI from "@/components/Hooks/useAPI";
-import { Alert, Modal } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { Modal } from "flowbite-react";
+import { useEffect } from "react";
 import RenderStreams from "./RenderStreams";
 import { toast } from "react-toastify";
 
@@ -34,15 +34,16 @@ export default function ViewRiver({
     if (status) {
       trigger(["GET", {}]);
     }
-  }, [status]);
+  }, [status, trigger]);
 
   // Handle data arrival
   useEffect(() => {
     if (streams?.code !== 200) {
       toast.error(streams?.json.message);
-      onClose();
+      setStatus(false);
+      setObjectID(0);
     }
-  }, [streams]);
+  }, [streams, setStatus, setObjectID]);
 
   return (
     <div>

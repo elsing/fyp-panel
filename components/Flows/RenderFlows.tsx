@@ -28,13 +28,13 @@ export default function RenderFlows({
 }) {
   const [key, setKey] = useState<number>(0);
   const { setConfigureModalStatus } = useModalContext();
-  const [showCreateModal, setCreateModal] = useState(false);
+  const [createModalStatus, setCreateModalStatus] = useState(false);
 
   function handleClick(id: number) {
     if (id !== 0) {
       setConfigureModalStatus(true);
     } else {
-      setCreateModal(true);
+      setCreateModalStatus(true);
     }
     setKey(id);
   }
@@ -42,19 +42,19 @@ export default function RenderFlows({
   return (
     <div>
       {/* <CreateFlow /> */}
-      <ConfigureFlow flow={key} />
+      <ConfigureFlow />
       {/* Show the create flows button */}
-      <CreateFlow status={showCreateModal} setStatus={setCreateModal} />
+      <CreateFlow status={createModalStatus} setStatus={setCreateModalStatus} />
 
       <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-gray-200 dark:bg-cyan-700 ">
-        <CreateButton handleClick={handleClick} />
+        <CreateButton setStatus={setCreateModalStatus} />
         {/* If flows exist, map them */}
         {!empty &&
           flows.map((flow) => {
             return (
               <FlowTile
                 flow={flow}
-                handleClick={handleClick}
+                setStatus={setConfigureModalStatus}
                 key={flow.flow_id}
               />
             );

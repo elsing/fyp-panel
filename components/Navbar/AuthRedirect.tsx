@@ -8,7 +8,6 @@ export default function Redirect({ url }: { url: string }) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(url);
     router.push(url);
   }, [router, url]);
 

@@ -4,7 +4,7 @@ import { Button, Label, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAPI from "../../Hooks/useAPI";
-import RenderRivers from "./MapRivers";
+import MapRivers from "./MapRivers";
 
 export default function RiverForm({ delta }: { delta: number }) {
   const { trigger, isMutating, data, error } = useAPI("rivers");
@@ -79,7 +79,7 @@ export default function RiverForm({ delta }: { delta: number }) {
       <div>
         <Label htmlFor="rivers">Existing rivers in this delta.</Label>
         <br />
-        <RenderRivers delta={delta} update={update} />
+        <MapRivers delta={delta} update={update} />
       </div>
     </div>
   );

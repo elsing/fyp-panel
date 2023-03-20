@@ -1,5 +1,7 @@
 "use client";
 
+import { useModalContext } from "../Context/modal";
+
 interface IFlow {
   flow_id: number;
   org_id: number;
@@ -14,11 +16,13 @@ interface IFlow {
 
 export default function FlowTile({
   flow,
-  handleClick,
+  setStatus,
 }: {
   flow: IFlow;
-  handleClick: Function;
+  setStatus: Function;
 }) {
+  const { setObjectID } = useModalContext()
+
   return (
     <div className="flex flex-col bg-gray-500 hover:bg-gray-400 border-black border rounded-lg m-4 p-4 h-min shadow-xl">
       <p className="text-center font-bold">{flow.name}</p>
@@ -34,11 +38,10 @@ export default function FlowTile({
       <p>Monitored: {flow.monitor ? "✅" : "❌"}</p>
       <p>Locked: {flow.locked ? "🔒" : "🔓"}</p>
       <button
-        data-modal-target="modify-flow-modal"
-        data-modal-toggle="modify-flow-modal"
         type="button"
         onClick={() => {
-          handleClick(flow.flow_id);
+          setStatus(true);
+          setObjectID(flow.flow_id)
         }}
       >
         Modify
