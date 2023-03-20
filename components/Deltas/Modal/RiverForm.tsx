@@ -6,10 +6,10 @@ import { useForm } from "react-hook-form";
 import useAPI from "../../Hooks/useAPI";
 import MapRivers from "./MapRivers";
 
-export default function RiverForm({ delta }: { delta: number }) {
+export default function RiverForm() {
   const { trigger, isMutating, data, error } = useAPI("rivers");
   const [update, setUpdate] = useState(false);
-  const { configureModalStatus } = useModalContext();
+  const { configureModalStatus, objectID } = useModalContext();
 
   const {
     register,
@@ -19,7 +19,7 @@ export default function RiverForm({ delta }: { delta: number }) {
   } = useForm();
 
   async function handleAddRiver(formResult: object) {
-    Object.assign(formResult, { delta_id: delta });
+    Object.assign(formResult, { delta_id: objectID });
     console.log(formResult);
     await trigger(["POST", formResult]);
     reset();
@@ -75,11 +75,9 @@ export default function RiverForm({ delta }: { delta: number }) {
           )}
         </div>
       </form>
-      <br />
       <div>
         <Label htmlFor="rivers">Existing rivers in this delta.</Label>
-        <br />
-        <MapRivers delta={delta} update={update} />
+        <MapRivers delta={objectID} update={update} />
       </div>
     </div>
   );

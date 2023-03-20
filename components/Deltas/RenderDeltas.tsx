@@ -24,32 +24,22 @@ export default function RenderDeltas({
   empty: boolean;
 }) {
   const [key, setKey] = useState<number>(0);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createModalStatus, setCreateModalStatus] = useState(false);
   const { setConfigureModalStatus } = useModalContext();
-  const [showModifyModal, setShowModifyModal] = useState(false);
-
-  function handleClick(id: number) {
-    if (id !== 0) {
-      setConfigureModalStatus(true);
-    } else {
-      setShowCreateModal(true);
-    }
-    setKey(id);
-  }
 
   return (
     <div>
-      <CreateDelta status={showCreateModal} setStatus={setShowCreateModal} />
-      <ConfigureDelta delta={key} />
+      <CreateDelta status={createModalStatus} setStatus={setCreateModalStatus} />
+      <ConfigureDelta />
       <div className="w-screen grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 bg-gray-200 dark:bg-cyan-700">
-        <CreateButton handleClick={handleClick} />
+        <CreateButton setStatus={setCreateModalStatus} />
         {/* If flows exist, map them */}
         {!empty &&
           deltas.map((delta, i) => {
             return (
               <DeltaTile
                 delta={delta}
-                handleClick={handleClick}
+                setStatus={setConfigureModalStatus}
                 key={"delta-tile" + i}
               />
             );

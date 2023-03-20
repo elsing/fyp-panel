@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetcher } from "../../Fetcher";
 import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
 import { Button, Modal, TextInput } from "flowbite-react";
+import { toast } from "react-toastify";
 
 export default function CreateDelta({
   status,
@@ -27,6 +28,14 @@ export default function CreateDelta({
     "https://api.singer.systems/deltas/",
     fetcher
   );
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success("Delta created successfully");
+    } else {
+      toast.error("Delta creation failed");
+    }
+  }, [data]);
 
   function onClose() {
     setStatus(false);

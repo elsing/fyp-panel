@@ -23,7 +23,6 @@ export default function MapRivers({
 
   useEffect(() => {
     if (configureModalStatus) {
-      console.log("useEffect");
       trigger(["GET", {}]);
     }
   }, [configureModalStatus, update, trigger]);

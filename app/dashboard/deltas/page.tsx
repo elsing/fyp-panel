@@ -21,10 +21,8 @@ export default function Deltas() {
   );
 
   useEffect(() => {
-    console.log("Refresh Deltas");
     if (data?.success) {
       setDeltas(data.json);
-      console.log("data:", data.json);
     }
   }, [data]);
 

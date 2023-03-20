@@ -20,17 +20,8 @@ export default function Flows() {
 
   useEffect(() => {
     if (data?.success) {
-      console.log("Refresh Flows");
       setFlows(data.json);
-      console.log("data:", data.json);
     }
-    //  else {
-    //   if (data?.code === 401) {
-    //     window.location.href = "/login";
-    //   }
-    //   setFlows({ loaded: false });
-    //   console.log("else...!", data?.json);
-    // }
   }, [data]);
 
   return (

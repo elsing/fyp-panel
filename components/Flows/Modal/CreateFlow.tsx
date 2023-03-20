@@ -36,9 +36,9 @@ export default function CreateModal({
 
   useEffect(() => {
     if (data?.success) {
-      toast.success("Flow created successfully!");
+      toast.success("Flow created successfully");
     } else {
-      toast.error("Something went wrong!");
+      toast.error("Flow craetion failed");
     }
   }, [data]);
 

@@ -30,15 +30,6 @@ export default function RenderFlows({
   const { setConfigureModalStatus } = useModalContext();
   const [createModalStatus, setCreateModalStatus] = useState(false);
 
-  function handleClick(id: number) {
-    if (id !== 0) {
-      setConfigureModalStatus(true);
-    } else {
-      setCreateModalStatus(true);
-    }
-    setKey(id);
-  }
-
   return (
     <div>
       {/* <CreateFlow /> */}

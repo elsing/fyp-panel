@@ -5,11 +5,9 @@ import { useForm } from "react-hook-form";
 import useAPI from "../../Hooks/useAPI";
 
 export default function DeltaForm({
-  delta,
   saveData,
   setFormData,
 }: {
-  delta: number;
   saveData: boolean;
   setFormData: Function;
 }) {
@@ -21,8 +19,8 @@ export default function DeltaForm({
     formState: { errors },
   } = useForm();
 
-  const { trigger, isMutating, data, error } = useAPI(`delta/${delta}`);
-  const { configureModalStatus } = useModalContext();
+  const { configureModalStatus, objectID } = useModalContext();
+  const { trigger, isMutating, data, error } = useAPI(`delta/${objectID}`);
 
   // When the data is loaded, load the flow details
   useEffect(() => {

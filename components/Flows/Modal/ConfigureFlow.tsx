@@ -40,7 +40,7 @@ export default function ConfigureFlow() {
           </Suspense>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter data_key={objectID} role="flows" />
+          <DeleteFooter />
           <SaveFooter
             role="flows"
             saveData={saveData}

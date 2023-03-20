@@ -8,7 +8,7 @@ import { useModalContext } from "@/components/Context/modal";
 import SaveFooter from "@/components/Shared/Modal/SaveFooter";
 import DeleteFooter from "@/components/Shared/Modal/DeleteFooter";
 
-export default function ConfigureDelta({ delta }: { delta: number }) {
+export default function ConfigureDelta() {
   // For saving the delta
   const [formData, setFormData] = useState(undefined);
   const [saveData, setSaveData] = useState(false);
@@ -26,19 +26,17 @@ export default function ConfigureDelta({ delta }: { delta: number }) {
         <Modal.Body>
           <div>
             <DeltaForm
-              delta={delta}
               saveData={saveData}
               setFormData={setFormData}
             />
-
-            <RiverForm delta={delta} />
+            <RiverForm  />
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter data_key={delta} role="deltas" />
+          <DeleteFooter />
           <SaveFooter
-            data_key={delta}
             role="deltas"
+            saveData={saveData}
             setSaveData={setSaveData}
             formData={formData}
           />
