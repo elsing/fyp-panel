@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { fetcher } from "../../Fetcher";
-import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
 import { Button, Modal, TextInput } from "flowbite-react";
 import { toast } from "react-toastify";
+import useAPI from "@/components/Hooks/useAPI";
 
 export default function CreateDelta({
   status,
@@ -24,17 +23,16 @@ export default function CreateDelta({
     formState: { errors },
   } = useForm();
 
-  const { trigger, isMutating, data, error } = useSWRMutation(
-    "https://api.singer.systems/deltas/",
-    fetcher
-  );
+  const { trigger, isMutating, data, error } = useAPI("deltas")
 
   useEffect(() => {
-    if (data?.success) {
+    if (data?.success && status) {
       toast.success("Delta created successfully");
     } else {
       toast.error("Delta creation failed");
     }
+  // Only update when data changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   function onClose() {
