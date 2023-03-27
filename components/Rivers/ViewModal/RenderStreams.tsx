@@ -33,13 +33,11 @@ export default function RenderStreams({
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   function toggleEditStream(stream_id: number | string) {
-    console.log("edit stream clicked");
     setObjectID(stream_id);
     setConfigureModalStatus(true);
   }
 
   function deleteStream(stream_id: number) {
-    console.log("delete stream clicked");
     setObjectID(stream_id);
     setDeleteModalStatus(true);
     setConfigureModalStatus(false);

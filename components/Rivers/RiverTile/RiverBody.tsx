@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import { fetcher } from "@/components/Fetcher";
 import { useEffect, useState } from "react";

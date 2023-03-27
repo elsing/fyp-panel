@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export async function fetcher(
   url: string,
   { arg }: { arg: any | undefined } = { arg: undefined }
@@ -16,6 +18,10 @@ export async function fetcher(
   async function handleResponse(response: Response) {
     const json = await response.json();
     if (!response.ok) {
+      if (response.status === 401) {
+        toast.error("You are not authorized to perform this action. Uour sesssion has probably expired. Please log in again.");
+  
+      } 
       return { success: false, json: json, code: response.status };
     }
     return { success: true, json: json, code: response.status };

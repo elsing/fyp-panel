@@ -55,7 +55,6 @@ export default function AddStream({
       if (mode == "edit") {
         if (stream?.success && !updating) {
           reset(stream?.json);
-          console.log("stream", stream);
           setFlowID(stream?.json.flow_id);
         }
       }
@@ -98,13 +97,10 @@ export default function AddStream({
   async function handleClick() {
     setValue("river_id", river_id);
     setUpdating(true);
-    console.log("mode", mode);
-    console.log("values", getValues());
     if (mode == "add") {
       await trigger(["POST", getValues()]);
       mutate(`https://api.singer.systems/rivers/${river_id}/streams`);
     } else if (mode == "edit") {
-      console.log("submitted");
       await trigger(["PATCH", getValues()]);
     }
   }

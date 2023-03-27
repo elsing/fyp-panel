@@ -20,7 +20,6 @@ export default function RiverForm() {
 
   async function handleAddRiver(formResult: object) {
     Object.assign(formResult, { delta_id: objectID });
-    console.log(formResult);
     await trigger(["POST", formResult]);
     reset();
     setUpdate(!update);

@@ -35,7 +35,7 @@ export default function CreateModal({
   useEffect(() => {
     if (data?.success) {
       toast.success("Flow created successfully");
-    } else {
+    } else if (data) {
       toast.error("Flow creation failed");
     }
   // Only update when data changes

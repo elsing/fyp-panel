@@ -41,14 +41,12 @@ export default function Logout() {
     if (result?.status === 200) {
       // Handle successful logout
       setlogoutSuccess(true);
-      console.log("Logout Success!");
       await sleep(5000);
       router.push("/login");
       return 200;
     } else {
       // Handle login error
       setlogoutSuccess(false);
-      console.log("Logout Failed!");
       return 500;
     }
   };

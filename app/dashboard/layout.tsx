@@ -1,35 +1,32 @@
-import { cookies } from "next/headers";
-import Redirect from "@/components/Navbar/AuthRedirect";
 import RenderNavbar from "@/components/Navbar/Navbar";
 import StatusContext from "@/components/Context/modal";
 import Footer from "@/components/Shared/Footer";
+import AuthChecker from "@/components/Shared/AuthChecker";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  function Authenticated() {
-    const cookiesList = cookies();
-    const hasCookie = cookiesList.has("auth_token");
-    return hasCookie;
-  }
+  // function Authenticated() {
+  //   const cookiesList = cookies();
+  //   const hasCookie = cookiesList.has("auth_token");
+  //   return hasCookie;
+  // }
 
-  const hasAuth: boolean = Authenticated();
-
-  if (hasAuth) {
-    return (
-      <main className="dark:text-white">
+  // const hasAuth: boolean = Authenticated();
+  return (
+    <main className="dark:text-white">
+      <AuthChecker url="/login">
         <div className="flex flex-col min-h-screen">
           <RenderNavbar />
           <StatusContext>
-            <div className="">{children}</div>
+            {children}
+            {/* <div className="">{children}</div> */}
           </StatusContext>
           <Footer />
         </div>
-      </main>
-    );
-  } else {
-    return <Redirect url="/login" />;
-  }
+      </AuthChecker>
+    </main>
+  );
 }

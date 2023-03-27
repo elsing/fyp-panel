@@ -28,7 +28,7 @@ export default function CreateDelta({
   useEffect(() => {
     if (data?.success && status) {
       toast.success("Delta created successfully");
-    } else {
+    } else if (data) {
       toast.error("Delta creation failed");
     }
   // Only update when data changes

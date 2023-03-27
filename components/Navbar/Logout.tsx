@@ -10,37 +10,28 @@ import { toast } from "react-toastify";
 
 export default function Logout() {
   const router = useRouter();
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
   const [logoutSuccess, setlogoutSuccess] = useState<boolean>(false);
   const [logoutWait, setlogoutWait] = useState<boolean>(false);
 
-  const { trigger, data, isMutating } = useAPI("auth/logout");
+  const { trigger, data, error, isMutating } = useAPI("auth/logout");
 
   useEffect(() => {
     if (data?.success) {
-      console.log("Logout Success!");
-      router.refresh();
-      // setlogoutSuccess(true);
-      setlogoutSuccess(true);
+      toast.success("Logout Success!");
+      router.push("/login");
       return;
+    } else if (data) {
+      toast.error("Logout Failed!");
     }
   }, [data, router]);
 
   useEffect(() => {
     if (logoutWait) {
       setlogoutWait(false);
-      console.log("trig");
-      // Handle successful logout
       trigger(["GET", {}]);
-      sleep(2000);
 
-      if (!logoutSuccess) {
-        toast.success("Logout Success!");
-      } else {
-        toast.error("Logout Failed!");
-      }
     }
-  }, [logoutWait, trigger, logoutSuccess]);
+  }, [logoutWait, trigger]);
 
   function handleClick() {
     if (!logoutWait) {

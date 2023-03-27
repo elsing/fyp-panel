@@ -25,15 +25,12 @@ export default function ConfigureDelta() {
         <Modal.Header>Configure Delta / Streams</Modal.Header>
         <Modal.Body>
           <div>
-            <DeltaForm
-              saveData={saveData}
-              setFormData={setFormData}
-            />
-            <RiverForm  />
+            <DeltaForm saveData={saveData} setFormData={setFormData} />
+            <RiverForm />
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter />
+          <DeleteFooter role="deltas" url="deltas" />
           <SaveFooter
             role="deltas"
             saveData={saveData}
