@@ -45,7 +45,6 @@ export default function Login() {
         // Handle login error
         setloginFailed(true);
         setloginSuccess(false);
-        console.log("Login Failed!");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,7 +52,6 @@ export default function Login() {
 
   const onSubmit = async (loginForm: object) => {
     setloginFailed(false);
-    console.log("loginForm", loginForm);
     await trigger(["POST", loginForm]);
   };
 

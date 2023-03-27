@@ -10,8 +10,6 @@ import {
 } from "flowbite-react";
 import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { fetcher } from "../../Fetcher";
-import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
 import useAPI from "@/components/Hooks/useAPI";
@@ -37,9 +35,11 @@ export default function CreateModal({
   useEffect(() => {
     if (data?.success) {
       toast.success("Flow created successfully");
-    } else {
-      toast.error("Flow craetion failed");
+    } else if (data) {
+      toast.error("Flow creation failed");
     }
+  // Only update when data changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   function onClose() {

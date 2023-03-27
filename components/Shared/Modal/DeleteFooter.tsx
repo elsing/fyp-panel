@@ -5,7 +5,13 @@ import { Button } from "flowbite-react";
 import { useState } from "react";
 import { mutate } from "swr";
 
-export default function DeleteFooter() {
+export default function DeleteFooter({
+  role,
+  url,
+}: {
+  role: string;
+  url: string;
+}) {
   // Handle delete button
   const { objectID } = useModalContext();
   const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false);
@@ -13,9 +19,9 @@ export default function DeleteFooter() {
   return (
     <div className="flex w-1/2">
       <DeleteModal
-        role="deltas"
+        role={role}
         role_key={objectID}
-        url="deltas"
+        url={url}
         status={deleteModalStatus}
         setStatus={setDeleteModalStatus}
       />

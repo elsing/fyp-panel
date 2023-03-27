@@ -1,5 +1,6 @@
 import Redirect from "@/components/Navbar/AuthRedirect";
 import styles from "@/components/pattern.module.css";
+import AuthChecker from "@/components/Shared/AuthChecker";
 import { cookies } from "next/headers";
 
 export default function RootLayout({
@@ -7,17 +8,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  function Authenticated() {
-    const cookiesList = cookies();
-    const hasCookie = cookiesList.has("auth_token");
-    return hasCookie;
-  }
-
-  const hasAuth: boolean = Authenticated();
-
-  if (hasAuth === false) {
-    return <main className={styles.background}>{children}</main>;
-  } else {
-    return <Redirect url="/dashboard" />;
-  }
+  return (
+    <AuthChecker url="/dashboard" reverse="y">
+      <main className={styles.background}>{children}</main>;
+    </AuthChecker>
+  );
 }

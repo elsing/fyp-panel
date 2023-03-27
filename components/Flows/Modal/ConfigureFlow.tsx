@@ -11,7 +11,8 @@ import DeleteFooter from "../../Shared/Modal/DeleteFooter";
 export default function ConfigureFlow() {
   const [formData, setFormData] = useState<object>({});
   const [saveData, setSaveData] = useState<boolean>(false);
-  const { configureModalStatus, setConfigureModalStatus, objectID } = useModalContext();
+  const { configureModalStatus, setConfigureModalStatus, objectID } =
+    useModalContext();
   const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
   // Close the modal
@@ -33,14 +34,11 @@ export default function ConfigureFlow() {
         <Modal.Header>Modify a Flow</Modal.Header>
         <Modal.Body>
           <Suspense fallback={<p>testing...!</p>}>
-            <FlowForm
-              saveData={saveData}
-              setFormData={setFormData}
-            />
+            <FlowForm saveData={saveData} setFormData={setFormData} />
           </Suspense>
         </Modal.Body>
         <Modal.Footer>
-          <DeleteFooter />
+          <DeleteFooter role="flows" url="flows" />
           <SaveFooter
             role="flows"
             saveData={saveData}

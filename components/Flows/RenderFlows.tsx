@@ -26,9 +26,8 @@ export default function RenderFlows({
   flows: IFlow[];
   empty: boolean;
 }) {
-  const [key, setKey] = useState<number>(0);
   const { setConfigureModalStatus } = useModalContext();
-  const [createModalStatus, setCreateModalStatus] = useState(false);
+  const [createModalStatus, setCreateModalStatus] = useState<boolean>(false);
 
   return (
     <div>
