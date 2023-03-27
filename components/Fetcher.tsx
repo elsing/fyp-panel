@@ -16,15 +16,21 @@ export async function fetcher(
 
   // input: object
   async function handleResponse(response: Response) {
-    const json = await response.json();
-    if (!response.ok) {
-      if (response.status === 401) {
-        toast.error("You are not authorized to perform this action. Uour sesssion has probably expired. Please log in again.");
-  
-      } 
-      return { success: false, json: json, code: response.status };
+    try {
+      const json = await response.json();
+      if (!response.ok) {
+        if (response.status === 401) {
+          toast.error(
+            "You are not authorized to perform this action. Uour sesssion has probably expired. Please log in again."
+          );
+        }
+        return { success: false, json: json, code: response.status };
+      }
+      return { success: true, json: json, code: response.status };
+    } catch (error) {
+      toast.error("An API request error occured. Please try again later.");
+      return { success: false, json: null, code: response.status };
     }
-    return { success: true, json: json, code: response.status };
   }
 
   try {

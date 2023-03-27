@@ -9,7 +9,7 @@ export default function CreateButton({
         onClick={() => {
           setStatus(true);
         }}
-        className="flex flex-col justify-center h-screen items-center"
+        className="flex flex-col justify-center h-full items-center"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

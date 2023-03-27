@@ -18,19 +18,19 @@ export default function UserDetails() {
   }
   const details = getInfo();
 
-  return (
-    details.username ? (
-      <div className="grid grid-cols-2 md:grid-rows-2 items-center justify-center h-16 md:w-64 min-w-min">
-        <UserAvatar className="row-span-2 hidden md:block w-fit" />
-        <h1 className="md:col-span-1 col-span-2 hidden sm:block">
-          {details.first_name + " " + details.last_name}
-        </h1>
-        <p className="md:col-span-1 col-span-2 hidden md:block">
-          @{details.username}
-        </p>
-      </div>
-    ) : (
-        <p className="flex items-center justify-center h-16 md:w-64 min-w-min">Logged out.</p>
-    )
+  return details.username ? (
+    <div className="grid grid-cols-2 md:grid-rows-2 items-center justify-center h-16 md:w-64 min-w-min">
+      <UserAvatar className="row-span-2 hidden md:block w-fit" />
+      <h1 className="md:col-span-1 col-span-2 hidden sm:block">
+        {details.first_name + " " + details.last_name}
+      </h1>
+      <p className="md:col-span-1 col-span-2 hidden md:block">
+        @{details.username}
+      </p>
+    </div>
+  ) : (
+    <p className="flex items-center justify-center h-16 md:w-64 min-w-min">
+      Logged out.
+    </p>
   );
 }
