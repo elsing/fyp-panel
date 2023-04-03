@@ -23,7 +23,7 @@ export default function CreateDelta({
     formState: { errors },
   } = useForm();
 
-  const { trigger, isMutating, data, error } = useAPI("deltas")
+  const { trigger, isMutating, data, error } = useAPI("deltas");
 
   useEffect(() => {
     if (data?.success && status) {
@@ -31,8 +31,9 @@ export default function CreateDelta({
     } else if (data) {
       toast.error("Delta creation failed");
     }
-  // Only update when data changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    onClose();
+    // Only update when data changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   function onClose() {
@@ -43,8 +44,6 @@ export default function CreateDelta({
   async function onSubmit(formResult: object) {
     setFormData(formResult);
     await trigger(["POST", formResult]);
-    setStatus(false);
-    reset();
     mutate("https://api.singer.systems/deltas");
   }
 

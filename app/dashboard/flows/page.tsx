@@ -25,7 +25,7 @@ export default function Flows() {
   }, [data]);
 
   return (
-    <div>
+    <div className="">
       <div className="p-4 m-4">
         <h1 className="text-xl font-bold">Flows</h1>
         <h2>

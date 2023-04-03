@@ -9,8 +9,15 @@ import { NavbarBrand } from "flowbite-react/lib/esm/components/Navbar/NavbarBran
 
 export default function RenderNavbar() {
   return (
-    <Navbar fluid={false} rounded={true}>
-      <Navbar.Brand href="https://watershed.singer.systems/dashboard">
+    <Navbar
+      fluid={false}
+      rounded={false}
+      className="bg-slate-400 dark:bg-gray-800"
+    >
+      <Navbar.Brand
+        href="https://watershed.singer.systems/dashboard"
+        className="font-bold"
+      >
         Watergate
       </Navbar.Brand>
       {/* <UserDetails /> */}

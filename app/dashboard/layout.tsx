@@ -16,17 +16,15 @@ export default function RootLayout({
 
   // const hasAuth: boolean = Authenticated();
   return (
-    <main className="dark:text-white">
-      <AuthChecker url="/login">
-        <div className="flex flex-col min-h-screen">
-          <RenderNavbar />
-          <StatusContext>
-            {children}
-            {/* <div className="">{children}</div> */}
-          </StatusContext>
-          <Footer />
-        </div>
-      </AuthChecker>
-    </main>
+    <AuthChecker url="/login">
+      <div className="flex flex-col min-h-screen dark:text-white">
+        <RenderNavbar />
+        <StatusContext>
+          {children}
+          {/* <div className="">{children}</div> */}
+        </StatusContext>
+        <Footer />
+      </div>
+    </AuthChecker>
   );
 }

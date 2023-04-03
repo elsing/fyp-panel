@@ -3,8 +3,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    // Login page
-    <main className="">{children}</main>
-  );
+  return <div>{children}</div>;
 }

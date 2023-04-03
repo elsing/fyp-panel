@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <AuthChecker url="/dashboard" reverse="y">
-      <main className={styles.background}>{children}</main>;
+      <main className={styles.background}>{children}</main>
     </AuthChecker>
   );
 }
