@@ -27,11 +27,11 @@ export default function AuthChecker({
         }
       } else {
         if (url === "/login") {
-          router.push(url); 
+          router.push(url);
         }
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, checking]);
 
   useEffect(() => {
@@ -45,37 +45,26 @@ export default function AuthChecker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-return (
-    checking ? (
+  return checking ? (
+    <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0 text-black dark:text-white">
+      <p>Checking auth...!</p>
+      <Spinner color="purple" />
+    </div>
+  ) : hasAuth ? (
+    reverse === "y" ? (
       <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0 text-black dark:text-white">
-        <p>Checking auth...!</p>
+        <p>You are already logged in, redirecting...!</p>
         <Spinner color="purple" />
       </div>
     ) : (
-    hasAuth ? (
-      reverse === "y" ? (
-        <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0 text-black dark:text-white">
-        <p>You are already logged in, redirecting...!</p>
-        <Spinner color="purple" />
-        </div>  
-        ) : (
-          <>
-          {children}
-          </>
-          )
-          ) : (
-            url !== "/login" ? (
-              <>
-              {children}
-              </>
-              ) : (
-                <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0 text-black dark:text-white">
-                <p>You must be logged in, redirecting...!</p>
-                <Spinner color="purple" />
-                </div>
-                )
-                )
+      <>{children}</>
     )
-              );
-            }
-            
+  ) : url !== "/login" ? (
+    <>{children}</>
+  ) : (
+    <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0 text-black dark:text-white">
+      <p>You must be logged in, redirecting...!</p>
+      <Spinner color="purple" />
+    </div>
+  );
+}
