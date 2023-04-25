@@ -27,14 +27,22 @@ export default function SaveFooter({
     async function handleSave(formResult: object) {
       await trigger(["PATCH", formResult]);
       setConfigureModalStatus(false); // Close the modal
-      mutate(`https://api.singer.systems/${role}`); // Refresh the list
+      mutate(`${process.env.NEXT_PUBLIC_API_URL}/${role}`); // Refresh the list
     }
     if (objectID !== 0) {
       if (formData === undefined) return;
       handleSave(formData); // Save the form data to the DB
       setSaveData(false); // Allow form to saved again
     }
-  }, [formData, saveData, trigger, setConfigureModalStatus, setSaveData, role, objectID]);
+  }, [
+    formData,
+    saveData,
+    trigger,
+    setConfigureModalStatus,
+    setSaveData,
+    role,
+    objectID,
+  ]);
 
   return (
     <Button

@@ -4,7 +4,6 @@ import { Spinner } from "flowbite-react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect, useState } from "react";
-import Redirect from "../Navbar/AuthRedirect";
 
 export default function AuthChecker({
   children,

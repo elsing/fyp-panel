@@ -99,7 +99,7 @@ export default function AddStream({
     setUpdating(true);
     if (mode == "add") {
       await trigger(["POST", getValues()]);
-      mutate(`https://api.singer.systems/rivers/${river_id}/streams`);
+      mutate(`${process.env.NEXT_PUBLIC_API_URL}/rivers/${river_id}/streams`);
     } else if (mode == "edit") {
       await trigger(["PATCH", getValues()]);
     }

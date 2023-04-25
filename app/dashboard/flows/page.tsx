@@ -11,7 +11,7 @@ export default function Flows() {
   const [flows, setFlows] = useState({});
 
   const { data } = useSWR(
-    "https://api.singer.systems/flows",
+    `${process.env.NEXT_PUBLIC_API_URL}/flows`,
     (url: string) => fetcher(url, { arg: ["GET", {}] }),
     {
       suspense: true,
@@ -31,6 +31,9 @@ export default function Flows() {
         <h2>
           These are the daemons that connect to each other to create streams.
         </h2>
+        <button onClick={() => console.log(process.env.NEXT_PUBLIC_API_URL)}>
+          test
+        </button>
       </div>
       {data?.success || data?.code === 404 ? (
         <RenderFlows

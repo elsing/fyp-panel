@@ -37,7 +37,7 @@ export default function DeleteModal({
       if (data?.success) {
         setStatus(false);
         setConfigureModalStatus(!configureModalStatus);
-        mutate(`https://api.singer.systems/${url}`);
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/${url}`);
         toast.success(`${data.json.message}`);
       } else {
         toast.error(`${data?.json.message}`);

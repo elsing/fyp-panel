@@ -20,7 +20,7 @@ export default function RenderRivers({ delta }: { delta: number }) {
 
   // Collect all rivers from the delta
   const { data } = useSWR(
-    `https://api.singer.systems/deltas/${delta}/rivers`,
+    `${process.env.NEXT_PUBLIC_API_URL}/deltas/${delta}/rivers`,
     (url: string) => fetcher(url, { arg: ["GET", {}] }),
     {
       suspense: true,

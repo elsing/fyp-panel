@@ -5,7 +5,7 @@ import { fetcher } from "../Fetcher";
 
 export default function useAPI(url: string) {
   const { trigger, isMutating, data, error } = useSWRMutation(
-    `https://api.singer.systems/${url}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/${url}`,
     fetcher
   );
   return { trigger, isMutating, data, error };

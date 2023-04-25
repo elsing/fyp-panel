@@ -13,18 +13,8 @@ import useAPI from "@/components/Hooks/useAPI";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// async function loginRequest(url: string, { arg }: { arg: object }) {
-//   return await fetch(url, {
-//     method: "POST",
-//     body: JSON.stringify(arg),
-//     credentials: "include",
-//     headers: { "Access-Control-Request-Method": "Allow" },
-//   });
-// }
-
 export default function Login() {
   const router = useRouter();
-  const [loginSuccess, setloginSuccess] = useState(false);
   const [loginFailed, setloginFailed] = useState(false);
   const {
     register,
@@ -40,11 +30,9 @@ export default function Login() {
       if (data?.code === 200) {
         // Handle successful login
         router.push("/dashboard");
-        setloginSuccess(true);
       } else {
         // Handle login error
         setloginFailed(true);
-        setloginSuccess(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,7 +43,6 @@ export default function Login() {
     await trigger(["POST", loginForm]);
   };
 
-  // bg-gray-200 dark:bg-gray-900
   return (
     <div className="justify-center flex flex-col items-center px-6 py-8 mx-auto h-screen lg:py-0">
       <h1 className="my-4 text-5xl dark:text-white font-bold">Watershed</h1>

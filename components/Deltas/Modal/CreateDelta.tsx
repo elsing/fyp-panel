@@ -44,7 +44,7 @@ export default function CreateDelta({
   async function onSubmit(formResult: object) {
     setFormData(formResult);
     await trigger(["POST", formResult]);
-    mutate("https://api.singer.systems/deltas");
+    mutate(`${process.env.NEXT_PUBLIC_API_URL}/deltas`);
   }
 
   return (

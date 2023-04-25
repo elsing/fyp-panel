@@ -18,7 +18,7 @@ type FormData = {
 
 export default function DeltaSelector({ setDelta }: { setDelta: Function }) {
   const { data } = useSWR(
-    "https://api.singer.systems/deltas",
+    `${process.env.NEXT_PUBLIC_API_URL}/deltas`,
     (url: string) => fetcher(url, { arg: ["GET", {}] }),
     {
       suspense: true,

@@ -30,7 +30,7 @@ export default function CreateModal({
     formState: { errors },
   } = useForm();
 
-  const { trigger, isMutating, data, error } = useAPI("flows")
+  const { trigger, isMutating, data, error } = useAPI("flows");
 
   useEffect(() => {
     if (data?.success) {
@@ -38,8 +38,8 @@ export default function CreateModal({
     } else if (data) {
       toast.error("Flow creation failed");
     }
-  // Only update when data changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Only update when data changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   function onClose() {
@@ -52,7 +52,7 @@ export default function CreateModal({
     await trigger(["POST", formResult]);
     setStatus(false);
     reset();
-    mutate("https://api.singer.systems/flows");
+    mutate(`${process.env.NEXT_PUBLIC_API_URL}/flows`);
   }
 
   return (

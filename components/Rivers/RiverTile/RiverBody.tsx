@@ -27,7 +27,7 @@ export default function RiverBody({ river_id }: { river_id: number }) {
   let clientCount = 0;
 
   const { data: streams } = useSWR(
-    `https://api.singer.systems/rivers/${river_id}/streams`,
+    `${process.env.NEXT_PUBLIC_API_URL}/rivers/${river_id}/streams`,
     (url: string) => fetcher(url, { arg: ["GET", {}] }),
     {
       suspense: true,

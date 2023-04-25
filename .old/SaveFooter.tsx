@@ -23,7 +23,7 @@ export default function SaveFooter({
     async function handleSave(formResult: object) {
       await trigger(["PATCH", formResult]);
       setConfigureModalStatus(false); // Close the modal
-      mutate("https://api.singer.systems/deltas"); // Refresh the deltas list
+      mutate(`${process.env.NEXT_PUBLIC_API_URL}/deltas`); // Refresh the deltas list
     }
     if (formData === undefined) return;
     handleSave(formData); // Save the form data to the DB
