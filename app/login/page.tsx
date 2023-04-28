@@ -16,6 +16,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Login() {
   const router = useRouter();
   const [loginFailed, setloginFailed] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const {
     register,
     handleSubmit,
@@ -29,6 +30,7 @@ export default function Login() {
     if (data?.code) {
       if (data?.code === 200) {
         // Handle successful login
+        setLoginSuccess(true)
         router.push("/dashboard");
       } else {
         // Handle login error
