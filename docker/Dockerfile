@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy source & Install dependencies
-COPY ./source/ /usr/src/app/
+COPY ./ /usr/src/app/
 RUN npm install
 
 # Building app
